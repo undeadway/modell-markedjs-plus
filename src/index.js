@@ -210,7 +210,7 @@ function create (marked) {
     getParser () {
       return parser;
     },
-    setFileUrl (url) {
+    setFileDefaultUrl (url) {
       fileUrl = url;
       if (url[url.length - 1] !== "/") {
         fileUrl += "/";
