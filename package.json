@@ -15,11 +15,7 @@
   "keywords": [
     "markdown",
     "markedjs",
-    "plus",
-    "traditional",
-    "color",
-    "rgb",
-    "cmyk"
+    "plus"
   ],
   "scripts": {
     "build:js": "webpack",
