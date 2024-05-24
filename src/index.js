@@ -5,7 +5,7 @@ function create (marked) {
   const imageMap = {}, tableMap = {}, levelMap = {};
   let tableIndex = 1, imgIndex = 1;
   let levelIndex = [ 0, 0, 0, 0, 0, 0 ], lastLevel = 0;
-  let fileUrl = "";
+  let fileUrl = "", imgDefaultAlign = "left";
 
   const rendererMD = new marked.Renderer();
   const lexer = new marked.Lexer();
@@ -39,7 +39,7 @@ function create (marked) {
 
     let [ _href, align ] = href.split("|");
     href = _href;
-    align = align || "left";
+    align = align || imgDefaultAlign;
 
     let index = imageMap[href];
     if (!index) {
@@ -215,6 +215,9 @@ function create (marked) {
       if (url[url.length - 1] !== "/") {
         fileUrl += "/";
       }
+    },
+    setImageDefultAlign (align) {
+      imgDefaultAlign = align;
     }
   }
 }
