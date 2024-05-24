@@ -5,6 +5,7 @@ function create (marked) {
   const imageMap = {}, tableMap = {}, levelMap = {};
   let tableIndex = 1, imgIndex = 1;
   let levelIndex = [ 0, 0, 0, 0, 0, 0 ], lastLevel = 0;
+  let fileUrl = "";
 
   const rendererMD = new marked.Renderer();
   const lexer = new marked.Lexer();
@@ -45,7 +46,7 @@ function create (marked) {
       index = imgIndex++;
       imageMap[href] = index;
     }
-    const html = `<div class="doc-img obj-align__${align}"><img id="#p${index}" src="${href}" /><div>图 ${index}${text}</div></div>`;
+    const html = `<div class="doc-img obj-align__${align}"><img id="#p${index}" src="${fileUrl}${href}" /><div>图 ${index}${text}</div></div>`;
     return html;
   }
   rendererMD.table = function(thead, tbody) {
@@ -208,6 +209,12 @@ function create (marked) {
     },
     getParser () {
       return parser;
+    },
+    setFileUrl (url) {
+      fileUrl = url;
+      if (url[url.length - 1] !== "/") {
+        fileUrl += "/";
+      }
     }
   }
 }
