@@ -36,7 +36,7 @@ function getInstance() {
       text = `：${text}`;
     }
 
-    const [ _href, align ] = href.split("|");
+    let [ _href, align ] = href.split("|");
     href = _href;
     align = align || "left";
 
@@ -123,7 +123,7 @@ function getInstance() {
           }
 
           if (isTable) {
-            return `<div>表 ${index2}</div></div>`; // 在 输入为 @X 的时候，表示这里有个表格，不做任何处理
+            return `<div class="obj-align__center span-bold">表 ${index2}</div>`; // 在 输入为 @X 的时候，表示这里有个表格，不做任何处理
           } else {
             output = `<span class="span-bold">表 ${index2}</span>`;
           }
@@ -184,7 +184,7 @@ function getInstance() {
   });
 
   return {
-    parse: () => {
+    parse: (file) => {
       try {
         const extensions = [extractsAt, extractsColor].concat(customExtensions);
 
@@ -192,8 +192,7 @@ function getInstance() {
     
         let html = marked.parse(file);
         html = html.replace("\n", "<br />");
-        html = `<div class="my-markedjs-plus--box">${html}</div>`;
-    
+        html = `<div class="my-markedjs-plus-box">${html}</div>`;
         return html;
       } catch (err) {
         console.log(err);
