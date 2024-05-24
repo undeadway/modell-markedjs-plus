@@ -216,7 +216,7 @@ function create (marked) {
         fileUrl += "/";
       }
     },
-    setImageDefultAlign (align) {
+    setImageDefaultAlign (align) {
       imgDefaultAlign = align;
     }
   }
