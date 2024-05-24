@@ -2,10 +2,11 @@ const fs = require("fs");
 const marked = require("marked");
 global.marked = marked;
 
-const object = require("./../src/index");
+const me = require("./../src/index");
 console.log(__dirname, __filename);
 const file = fs.readFileSync(__dirname + "./../test/input.md",'utf8');
 
+const object = me.create(marked);
 const html = object.parse(file);
 
 const output = `<html>
