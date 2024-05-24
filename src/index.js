@@ -48,7 +48,7 @@ function create (marked) {
       index = imgIndex++;
       imageMap[href] = index;
     }
-    const html = `<div class="doc-img obj-align__${align}"><img id="#p${index}" src="${fileUrl}${href}" /><div>图 ${index}${text}</div></div>`;
+    const html = `<div class="doc-img obj-align__${align}"><img id="#p${index}" title=${title}"" src="${fileUrl}${href}" /><div>图 ${index}${text}</div></div>`;
     return html;
   }
 
