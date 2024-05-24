@@ -1,0 +1,34 @@
+{
+  "name": "my-markedjs-plus",
+  "version": "0.0.1",
+  "description": "my myarkedjs plus",
+  "license": "Apache-2.0",
+  "author": "hzwaygc@gmail.com",
+  "main": "./src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitee.com/undeadway/my-markedjs-plus.git"
+  },
+  "bugs": {
+    "url": "https://gitee.com/undeadway/my-markedjs-plus/issues"
+  },
+  "keywords": [
+    "markdown",
+    "markedjs",
+    "plus",
+    "traditional",
+    "color",
+    "rgb",
+    "cmyk"
+  ],
+  "scripts": {
+    "build:js": "webpack",
+    "build:css": "node ./build/css.js",
+    "build": "webpack && node ./build/css.js"
+  },
+  "devDependencies": {
+    "marked": "^9.0.1",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
