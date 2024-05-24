@@ -30,6 +30,8 @@ function create (marked) {
   }
   rendererMD.link = function(href, title, text) {
     text = text || href;
+    title = text;
+
     let html = `<a href="${href} title="${title}">${text}</a>`;
     return html;
   };
@@ -48,7 +50,7 @@ function create (marked) {
       index = imgIndex++;
       imageMap[href] = index;
     }
-    const html = `<div class="doc-img obj-align__${align}"><img id="#p${index}" title=${title}"" src="${fileUrl}${href}" /><div>图 ${index}${text}</div></div>`;
+    const html = `<div class="doc-img obj-align__${align}"><img id="#p${index}" src="${fileUrl}${href}" /><div>图 ${index}${text}</div></div>`;
     return html;
   }
 
