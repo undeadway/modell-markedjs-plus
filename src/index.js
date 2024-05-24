@@ -29,9 +29,11 @@ function create (marked) {
     return output;
   }
   rendererMD.link = function(href, title, text) {
+    text = text || href;
     let html = `<a href="${href} title="${title}">${text}</a>`;
     return html;
   };
+
   rendererMD.image = function(href, title, text) {
     if (text) {
       text = `：${text}`;
@@ -49,6 +51,7 @@ function create (marked) {
     const html = `<div class="doc-img obj-align__${align}"><img id="#p${index}" src="${fileUrl}${href}" /><div>图 ${index}${text}</div></div>`;
     return html;
   }
+
   rendererMD.table = function(thead, tbody) {
     const html = `<div class="doc-table"><table>${thead}${tbody}</table></div>`;
     return html;
@@ -124,9 +127,9 @@ function create (marked) {
           }
 
           if (isTable) {
-            return `<div class="obj-align__center span-bold">表 ${index2}</div>`; // 在 输入为 @X 的时候，表示这里有个表格，不做任何处理
+            return `<div class="obj-align__center span-bold">表 ${index2}：${value}</div>`; // 在 输入为 @X 的时候，表示这里有个表格，不做任何处理
           } else {
-            output = `<span class="span-bold">表 ${index2}</span>`;
+            output = `<span class="span-bold">表 ${index2}（${value}）</span>`;
           }
 
           break;
