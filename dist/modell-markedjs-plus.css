@@ -1,0 +1,61 @@
+.modell-markedjs-plus-box {
+  width: 100%;
+}
+.modell-markedjs-plus-box li {
+  padding: 5px 0px;
+}
+.modell-markedjs-plus-box .doc-heading {
+  font-weight: bold;
+  font-size: 20px;
+}
+.modell-markedjs-plus-box .doc-img > div, .modell-markedjs-plus-box .doc-table > div {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 3px;
+}
+.modell-markedjs-plus-box .doc-img {
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+.modell-markedjs-plus-box .doc-img img, .modell-markedjs-plus-box .doc-table table {
+  max-width: 80%;
+}
+.modell-markedjs-plus-box .span-bold {
+  font-weight: bold;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.modell-markedjs-plus-box .span-red {
+  color: #FF0000;
+  font-size: 18px;
+  line-height: 24px;
+}
+.modell-markedjs-plus-box table {
+  border-collapse: collapse;
+  padding: 0;
+  width: 80%;
+  margin: auto;
+}
+.modell-markedjs-plus-box table tr th {
+  background: #C0C4CC;
+}
+.modell-markedjs-plus-box table tr th, .modell-markedjs-plus-box table tr td {
+  padding: 10px;
+  border: 1px solid #909399;
+}
+.modell-markedjs-plus-box table tr:nth-child(odd) {
+  background: #DCDFE6;
+}
+.modell-markedjs-plus-box .obj-align__left {
+  text-align: left;
+}
+.modell-markedjs-plus-box .obj-align__center {
+  text-align: center;
+}
+.modell-markedjs-plus-box .obj-align__right {
+  text-align: right;
+}
+.modell-markedjs-plus-box .obj-align__justify {
+  text-align: justify;
+}

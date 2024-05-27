@@ -198,7 +198,7 @@ function create (marked) {
     
         let html = marked.parse(file);
         html = html.replace("\n", "<br />");
-        html = `<div class="my-markedjs-plus-box">${html}</div>`;
+        html = `<div class="modell-markedjs-plus-box">${html}</div>`;
         return html;
       } catch (err) {
         console.log(err);

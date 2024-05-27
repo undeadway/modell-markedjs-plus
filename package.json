@@ -1,5 +1,5 @@
 {
-  "name": "my-markedjs-plus",
+  "name": "modell-markedjs-plus",
   "version": "0.0.1",
   "description": "my myarkedjs plus",
   "license": "Apache-2.0",
@@ -7,10 +7,10 @@
   "main": "./src/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://gitee.com/undeadway/my-markedjs-plus.git"
+    "url": "git+https://gitee.com/undeadway/modell-markedjs-plus.git"
   },
   "bugs": {
-    "url": "https://gitee.com/undeadway/my-markedjs-plus/issues"
+    "url": "https://gitee.com/undeadway/modell-markedjs-plus/issues"
   },
   "keywords": [
     "markdown",

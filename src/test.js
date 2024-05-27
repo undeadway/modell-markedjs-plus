@@ -11,7 +11,7 @@ const html = object.parse(file);
 
 const output = `<html>
 <head>
-<link rel="stylesheet" href="./../dist/my-markedjs-plus.css" />
+<link rel="stylesheet" href="./../dist/modell-markedjs-plus.css" />
 </head>
 <body>
 ${html}
