@@ -1,5 +1,17 @@
 const marked = require("marked");
 
+function _parse (marked, input) {
+  try {
+    let html = marked.parse(input);
+    html = html.replace("\n", "<br />");
+    html = `<div class="modell-markedjs-plus-box">${html}</div>`;
+    return html;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+
 function create () {
 
   const customExtensions = [];
@@ -193,19 +205,11 @@ function create () {
 
   return {
     parse: (file) => {
-      try {
         const extensions = [extractsAt, extractsColor].concat(customExtensions);
 
         marked.use({ extensions });
     
-        let html = marked.parse(file);
-        html = html.replace("\n", "<br />");
-        html = `<div class="modell-markedjs-plus-box">${html}</div>`;
-        return html;
-      } catch (err) {
-        console.log(err);
-        return null;
-      }
+        return _parse(marked, file);
 
     },
     addCutomExtension (obj) {
@@ -230,5 +234,8 @@ function create () {
 }
 
 module.exports = exports = {
-  create
+  create,
+  parse (file) {
+    return _parse(marked, file);
+  }
 };
