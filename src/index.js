@@ -1,4 +1,6 @@
-function create (marked) {
+const marked = require("marked");
+
+function create () {
 
   const customExtensions = [];
 

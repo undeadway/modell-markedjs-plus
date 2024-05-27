@@ -22,8 +22,10 @@
     "build:css": "node ./src/buildcss.js",
     "build": "webpack && node ./src/buildcss.js"
   },
+  "dependencies": {
+    "marked": "^9.0.1"
+  },
   "devDependencies": {
-    "marked": "^9.0.1",
     "sass": "^1.77.2",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4"
