@@ -1,5 +1,3 @@
-const { Marked } = require("marked");
-
 function _parse (marked, input) {
   try {
     let html = marked.parse(input);
@@ -12,7 +10,7 @@ function _parse (marked, input) {
   }
 }
 
-function create () {
+function create (marked) {
 
   const customExtensions = [];
   const imageMap = {}, tableMap = {}, levelMap = {};
@@ -21,7 +19,6 @@ function create () {
   let fileUrl = "", imgDefaultAlign = "left";
   let _highlight = null;
 
-  const marked = new Marked();
   const rendererMD = new marked.Renderer();
   const lexer = new marked.Lexer();
   const parser = new marked.Parser();
@@ -247,10 +244,17 @@ function create () {
   }
 }
 
-module.exports = exports = {
-  create,
-  parse (file) {
-    const marked = new Marked();
-    return _parse(marked, file);
-  }
-};
+module.exports = exports = (Marked) => {
+
+  return {
+    create: () => {
+      return create(new Marked());
+    },
+    parse (file) {
+      const marked = new Marked();
+      return _parse(marked, file);
+    }
+  };
+}
+
+
