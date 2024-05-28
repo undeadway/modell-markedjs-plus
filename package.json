@@ -7,10 +7,11 @@
   "main": "./src/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://gitee.com/undeadway/modell-markedjs-plus.git"
+    "url": "https://github.com/undeadway/modell-markedjs-plus.git"
   },
+  "homepage": "http://codes.waygc.net/projects?modell-markedjs-plus",
   "bugs": {
-    "url": "https://gitee.com/undeadway/modell-markedjs-plus/issues"
+    "url": "https://github.com/undeadway/modell-markedjs-plus/issues"
   },
   "keywords": [
     "markdown",
