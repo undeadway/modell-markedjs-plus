@@ -70,7 +70,9 @@ function create () {
   }
 
   rendererMD.code = function (code, info, escaped) {
-    return _highlight(code, info, escaped);
+    const value = _highlight(code, info, escaped);
+
+    return `<pre class="doc-code"><code class="language-html">${value}</code></pre>`;
   };
 
   rendererMD.table = function(thead, tbody) {
