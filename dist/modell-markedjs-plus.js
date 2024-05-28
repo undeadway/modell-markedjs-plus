@@ -9,6 +9,16 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./build/js.js":
+/*!*********************!*\
+  !*** ./build/js.js ***!
+  \*********************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("const data = __webpack_require__(/*! ./../src/index */ \"./src/index.js\");\r\n\r\nif (typeof window) {\r\n    window.ModellMarkedjsPlus = data;\r\n}\n\n//# sourceURL=webpack://modell-markedjs-plus/./build/js.js?");
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
@@ -49,8 +59,8 @@ eval("function _parse (marked, input) {\r\n  try {\r\n    let html = marked.pars
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/index.js");
+/******/ 	// This entry module can't be inlined because the eval devtool is used.
+/******/ 	var __webpack_exports__ = __webpack_require__("./build/js.js");
 /******/ 	
 /******/ })()
 ;
