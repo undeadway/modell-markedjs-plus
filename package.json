@@ -1,7 +1,7 @@
 {
   "name": "modell-markedjs-plus",
   "version": "0.0.1",
-  "description": "my myarkedjs plus",
+  "description": "a myarkedjs powerdup plugs custom extensions.",
   "license": "Apache-2.0",
   "author": "hzwaygc@gmail.com",
   "main": "./src/index.js",
