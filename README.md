@@ -151,7 +151,7 @@
 | parse | 不适用扩展功能，直接使用 markedjs 的原生处理 | markDownString | html |
 | create | 创建一个 modell-markedjs-plus 的新实例 | 无 | modell-markedjs-plus 的新实例 |
 
-# modell-markedjs-plus 实例
+### modell-markedjs-plus 实例
 
 | API | 说明 | 参数 | 返回值 |
 | --- | --- | --- | --- |
