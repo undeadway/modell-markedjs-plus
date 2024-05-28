@@ -46,7 +46,7 @@ function create (marked) {
     text = text || href;
     title = text;
 
-    let html = `<a href="${href} title="${title}">${text}</a>`;
+    let html = `<a href="${href}">${text}</a>`;
     return html;
   };
 
