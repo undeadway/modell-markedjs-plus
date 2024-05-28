@@ -15,11 +15,11 @@ function _parse (marked, input) {
 function create () {
 
   const customExtensions = [];
-
   const imageMap = {}, tableMap = {}, levelMap = {};
   let tableIndex = 1, imgIndex = 1;
   let levelIndex = [ 0, 0, 0, 0, 0, 0 ], lastLevel = 0;
   let fileUrl = "", imgDefaultAlign = "left";
+  let _highlight = null;
 
   const marked = new Marked();
   const rendererMD = new marked.Renderer();
@@ -68,6 +68,10 @@ function create () {
     const html = `<div class="doc-img obj-align__${align}"><img id="#p${index}" src="${fileUrl}${href}" /><div>图 ${index}${text}</div></div>`;
     return html;
   }
+
+  rendererMD.code = function (code, info, escaped) {
+    return _highlight(code, info, escaped);
+  };
 
   rendererMD.table = function(thead, tbody) {
     const html = `<div class="doc-table"><table>${thead}${tbody}</table></div>`;
@@ -201,7 +205,8 @@ function create () {
 
   marked.setOptions({
     renderer: rendererMD,
-    lexer: parser
+    lexer: lexer,
+    parser: parser
   });
 
   return {
@@ -221,6 +226,12 @@ function create () {
     },
     getParser () {
       return parser;
+    },
+    getRenderer () {
+      return rendererMD;
+    },
+    codeHighlight (highlight) {
+      _highlight = highlight;
     },
     setFileDefaultUrl (url) {
       fileUrl = url;

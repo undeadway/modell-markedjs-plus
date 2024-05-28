@@ -159,5 +159,6 @@
 | addCustomExtension | 添加自定义 customExtension | object | 无 |
 | getLexer | 获得 lexer 的实例 | 无 | lexer 实例 |
 | getParser | 获得 parser 的实例 | 无 | parser 实例 |
+| getRenderer | 获得 renderer 的实例 | 无 | renderer 实例 |
 | setFileDefaultUrl | 设置文件解析默认路径<br />有这个路径则以这个路径+md的定义进行解析<br />如果没有，则仅按 md 中的内容进行解析 | 路径 | 无 |
 | setImageDefaultAlign | 设置图片默认对齐方案<br />如果md中有定义，则按md中的定义解析，如果没有则按这里的解析，默认居左 | 对齐方式 | 无 |

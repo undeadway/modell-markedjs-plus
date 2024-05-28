@@ -52,6 +52,17 @@
 ![Demo3](/demo/demo3.jpg|center)
 
 #### 第一段第二章第三节第二小节
+
+```
+var a = new A();
+var b = a.getItem();
+console.log(b);
+
+if (b) {
+    b.execute();
+}
+```
+
 ### 第一段第二章第三节
 # 第二段
 
