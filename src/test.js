@@ -1,12 +1,8 @@
 const fs = require("fs");
-const marked = require("marked");
-global.marked = marked;
+const file = fs.readFileSync(__dirname + "./../demo/input.md",'utf8');
 
-const me = require("./../src/index");
-console.log(__dirname, __filename);
-const file = fs.readFileSync(__dirname + "./../test/input.md",'utf8');
-
-const object = me.create(marked);
+const plus = require("./../src/index");
+const object = plus.create();
 const html = object.parse(file);
 
 const output = `<html>
@@ -18,4 +14,4 @@ ${html}
 </body>
 </html>`;
 
-fs.writeFileSync(__dirname + "./../test//output.html", output);
+fs.writeFileSync(__dirname + "./../demo/output.html", output);

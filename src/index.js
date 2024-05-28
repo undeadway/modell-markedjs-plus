@@ -90,7 +90,7 @@ function create () {
     name: "extractsAt",
     level: "inline",
     start: (src) => {
-      const match = /@\[(image|icon|table|title)\]\((\S+?)\)/.exec(src);
+      const match = /@\[(image|icon|table|title)\]\{(\S+?)\}/.exec(src);
       if (match) {
         return match.index;
       } else {
@@ -98,7 +98,7 @@ function create () {
       }
     },
     tokenizer: (src, tokens) => {
-      const match = /@\[(image|icon|table|title)\]\((\S+?)\)/.exec(src);
+      const match = /@\[(image|icon|table|title)\]\{(\S+?)\}/.exec(src);
       if (match) {
         let [ raw, kind, value ] = match;
         const text = raw;
@@ -146,7 +146,7 @@ function create () {
           if (isTable) {
             return `<div class="obj-align__center span-bold">表 ${index2}：${value}</div>`; // 在 输入为 @X 的时候，表示这里有个表格，不做任何处理
           } else {
-            output = `<span class="span-bold">表 ${index2}（${value}）</span>`;
+            output = `<span class="span-bold">表 ${index2}</span>`;
           }
 
           break;
