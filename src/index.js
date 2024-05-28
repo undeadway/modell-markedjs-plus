@@ -1,4 +1,4 @@
-const marked = require("marked");
+const { Marked } = require("marked");
 
 function _parse (marked, input) {
   try {
@@ -21,6 +21,7 @@ function create () {
   let levelIndex = [ 0, 0, 0, 0, 0, 0 ], lastLevel = 0;
   let fileUrl = "", imgDefaultAlign = "left";
 
+  const marked = new Marked();
   const rendererMD = new marked.Renderer();
   const lexer = new marked.Lexer();
   const parser = new marked.Parser();
@@ -236,6 +237,7 @@ function create () {
 module.exports = exports = {
   create,
   parse (file) {
+    const marked = new Marked();
     return _parse(marked, file);
   }
 };
