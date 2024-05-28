@@ -213,7 +213,7 @@ function create () {
         return _parse(marked, file);
 
     },
-    addCutomExtension (obj) {
+    addCustomExtension (obj) {
       customExtensions.push(obj);
     },
     getLexer () {
