@@ -17,7 +17,9 @@ function create (marked) {
   let tableIndex = 1, imgIndex = 1;
   let levelIndex = [ 0, 0, 0, 0, 0, 0 ], lastLevel = 0;
   let fileUrl = "", imgDefaultAlign = "left";
-  let _highlight = null;
+  let _highlight = (code) => {
+    return code;
+  }
 
   const rendererMD = new marked.Renderer();
   const lexer = new marked.Lexer();
