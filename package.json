@@ -19,8 +19,8 @@
   ],
   "scripts": {
     "build:js": "webpack",
-    "build:css": "node ./src/buildcss.js",
-    "build": "webpack && node ./src/buildcss.js"
+    "build:css": "node ./build/css.js",
+    "build": "webpack && node ./build/css.js"
   },
   "dependencies": {
     "marked": "^9.0.1"
