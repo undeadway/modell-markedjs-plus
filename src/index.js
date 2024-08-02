@@ -1,3 +1,5 @@
+import { Marked } from "marked";
+
 function _parse (marked, input) {
   try {
     let html = marked.parse(input);
@@ -246,7 +248,7 @@ function create (marked) {
   }
 }
 
-module.exports = exports = (Marked) => {
+module.exports = exports = () => {
 
   return {
     create: () => {
