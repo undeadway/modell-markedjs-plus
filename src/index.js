@@ -1,4 +1,4 @@
-import { Marked } from "marked";
+const { Marked } = require("marked");
 
 function _parse (marked, input) {
   try {
@@ -248,17 +248,14 @@ function create (marked) {
   }
 }
 
-module.exports = exports = () => {
-
-  return {
-    create: () => {
-      return create(new Marked());
-    },
-    parse (file) {
-      const marked = new Marked();
-      return _parse(marked, file);
-    }
-  };
-}
+module.exports = exports =  {
+  create: () => {
+    return create(new Marked());
+  },
+  parse (file) {
+    const marked = new Marked();
+    return _parse(marked, file);
+  }
+};
 
 
