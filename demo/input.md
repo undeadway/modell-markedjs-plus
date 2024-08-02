@@ -59,7 +59,7 @@
 
 #### 第一段第二章第三节第二小节
 
-```
+```(javascript)
 var a = new A();
 var b = a.getItem();
 console.log(b);

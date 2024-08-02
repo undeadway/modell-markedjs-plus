@@ -71,6 +71,8 @@ function create (marked) {
   }
 
   rendererMD.code = function (code, info, escaped) {
+    info = info.replace("(", "");
+    info = info.replace(")", "");
     const value = _highlight(code, info, escaped);
 
     return `<pre class="doc-code"><code class="language-html">${value}</code></pre>`;
