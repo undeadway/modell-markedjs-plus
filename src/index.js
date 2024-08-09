@@ -3,7 +3,7 @@ const { Marked } = require("marked");
 function _parse (marked, input) {
   try {
     let html = marked.parse(input);
-    html = html.replace("\n", "<br />");
+    // html = html.replace("\n", "<br />");
     html = `<div class="modell-markedjs-plus-box"><div>${html}</div></div>`;
     return html;
   } catch (err) {
