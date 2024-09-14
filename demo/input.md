@@ -40,7 +40,7 @@
 
 标题返回第二级。
 
-直接跳到@[anchor]{:第一段}的位置
+直接跳到@[anchor]{第一段:第一段}的位置
 
 ### 第一段第二章第一节
 
@@ -62,9 +62,18 @@
 
 设置 @[image]{/demo/demo3.jpg} 居中对齐
 
+@[anchor]{第二段:前往第二段}
+
 ![Demo3](/demo/demo3.jpg|center)
 
 #### 第一段第二章第三节第二小节
+
+
+
+### 第一段第二章第三节
+# @[anchor]{第二段}
+
+第二段的内容。
 
 ```(javascript)
 var a = new A();
@@ -76,7 +85,12 @@ if (b) {
 }
 ```
 
-### 第一段第二章第三节
-# @[anchor]{第二段}
+```(js)
+var a = new A();
+var b = a.getItem();
+console.log(b);
 
-第二段的内容。
+if (b) {
+    b.execute();
+}
+```

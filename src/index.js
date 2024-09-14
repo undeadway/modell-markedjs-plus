@@ -160,13 +160,18 @@ function create (marked) {
 					const isAnchor = value.indexOf(":") < 0;
 
 					if (isAnchor) {
-						if (anchorMap[value]) return; // 不知道为什么，这里会调用两次，所以去重
-						output = `<span id="a_${anchorIndex}">${value}</span>`;
-						anchorMap[value] = anchorIndex++;
+						let index = anchorMap[value];
+						if (!index) {
+							index = anchorMap[value] = anchorIndex++;
+						}
+						output = `<span id="a_${index}">${value}</span>`;
 					} else {
-						value = value.slice(1);
-						const index = anchorMap[value];
-						output = `<a href="#a_${index}">${value}</a>`;
+						const [ key, tVal ] = value.split(":"); 
+						let index = anchorMap[key];
+						if (!index) {
+							index = anchorMap[key] = anchorIndex++;
+						}
+						output = `<a href="#a_${index}">${tVal}</a>`;
 					}
 
 					break;
