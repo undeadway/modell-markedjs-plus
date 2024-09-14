@@ -1,7 +1,6 @@
 function _parse (marked, input) {
   try {
     let html = marked.parse(input);
-    // html = html.replace("\n", "<br />");
     html = `<div class="modell-markedjs-plus-box"><div>${html}</div></div>`;
     return html;
   } catch (err) {
@@ -13,8 +12,8 @@ function _parse (marked, input) {
 function create (marked) {
 
   const customExtensions = [];
-  const imageMap = {}, tableMap = {}, levelMap = {};
-  let tableIndex = 1, imgIndex = 1;
+  const imageMap = {}, tableMap = {}, levelMap = {}, anchorMap = {};
+  let tableIndex = 1, imgIndex = 1, anchorIndex = 1;
   let levelIndex = [ 0, 0, 0, 0, 0, 0 ], lastLevel = 0;
   let fileUrl = "", imgDefaultAlign = "left";
   let _highlight = (code) => {
@@ -97,7 +96,7 @@ function create (marked) {
     name: "extractsAt",
     level: "inline",
     start: (src) => {
-      const match = /@\[(image|icon|table|title)\]\{(\S+?)\}/.exec(src);
+      const match = /@\[(image|icon|table|anchor)\]\{(\S+?)\}/.exec(src);
       if (match) {
         return match.index;
       } else {
@@ -105,7 +104,7 @@ function create (marked) {
       }
     },
     tokenizer: (src, tokens) => {
-      const match = /@\[(image|icon|table|title)\]\{(\S+?)\}/.exec(src);
+      const match = /@\[(image|icon|table|anchor)\]\{(\S+?)\}/.exec(src);
       if (match) {
         let [ raw, kind, value ] = match;
         const text = raw;
@@ -157,9 +156,18 @@ function create (marked) {
           }
 
           break;
-        case "title":
-          const chapter = levelMap[value];
-          output = `<span>${chapter}. 节《${value}》</span>`;
+        case "anchor":
+          const isAnchor = value.indexOf(":") < 0;
+
+          if (isAnchor) {
+            if (anchorMap[value]) return; // 不知道为什么，这里会调用两次，所以去重
+            output = `<span id="a_${anchorIndex}">${value}</span>`;
+            anchorMap[value] = anchorIndex++;
+          } else {
+            value = value.slice(1);
+            const index = anchorMap[value];
+            output = `<a href="#a_${index}">${value}</a>`;
+          }
       }
 
       raw = raw.replace(text, output);
