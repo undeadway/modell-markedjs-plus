@@ -168,6 +168,8 @@ function create (marked) {
 						const index = anchorMap[value];
 						output = `<a href="#a_${index}">${value}</a>`;
 					}
+
+					break;
 			}
 
 			raw = raw.replace(text, output);
@@ -227,7 +229,6 @@ function create (marked) {
 				marked.use({ extensions });
 		
 				return _parse(marked, file);
-
 		},
 		addCustomExtension (obj) {
 			customExtensions.push(obj);
