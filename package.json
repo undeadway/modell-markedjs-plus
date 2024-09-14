@@ -24,9 +24,9 @@
     "build": "webpack && node ./build/css.js"
   },
   "dependencies": {
-    "marked": "^9.0.1"
   },
   "devDependencies": {
+    "marked": "^9.0.1",
     "highlight.js": "^11.9.0",
     "highlightjs-line-numbers.js": "^2.8.0",
     "sass": "^1.77.2",
