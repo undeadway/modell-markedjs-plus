@@ -1,9 +1,7 @@
 const dayjs = require("dayjs");
 const utils = require("../../lib/utils");
-const browser = require("./browser");
-const others = require("./others");
+const Client = utils.isBbrowser() ? require("./browser") : require("./others");
 
-const Client = utils.isBbrowser() ? browser : others;
 const LETTERS = "ABCDEFGHIJKLIMOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 const LETTERS_DIGIT = "ABCDEFGHIJKLIMOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890";
 
