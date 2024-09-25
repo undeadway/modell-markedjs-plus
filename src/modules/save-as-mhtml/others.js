@@ -59,12 +59,14 @@ const getFilesBase64 = async (html, contentLocation) => {
 						// 如果是绝对路径，则不做任何处理，只处理相对路径
 						tmpPath =  process.cwd() + "/" + path;
 					}
-					let data = fs.readFileSync(tmpPath, "base64");
+					let data = fs.readFileSync(tmpPath, "binary");
+					data = Buffer.from(data, "binary");
+					data = data.toString("base64");
 
 					let ext = fileName.split(".");
 					ext = ext[ext.length - 1];
 
-					resolve({name: `${contentLocation}${path}`, base64: data, contentType: "image/png", contentTransferEncoding: "base64"});
+					resolve({name: path, base64: data, contentType: "image/png", contentTransferEncoding: "base64"});
 				} catch (err) {
 					reject(err);
 				}
