@@ -1,7 +1,7 @@
 const fs = require("fs");
 const http = require("http");
 const https = require("https");
-// const HttpsClient = require("./../../lib/HttpsClient");
+const fileinfo = require("fileinfo");
 
 const getStyles = () => {
 	const data = fs.readFileSync(`${__dirname}/../../../dist/modell-markedjs-plus.css`);
@@ -42,9 +42,10 @@ const getFilesBase64 = async (html, contentLocation) => {
 					});
 					response.on("end", function () {
 						data = Buffer.from(data, "binary");
+						const contentType = getContentTypeFromBuffer(data);
 						data = data.toString("base64");
 
-						resolve({name: path, base64: data, contentType: "image/png", contentTransferEncoding: "base64"});
+						resolve({name: path, base64: data, contentType, contentTransferEncoding: "base64"});
 					});
 				});	
 			} else { // 不然一律以本体图片处理，而本地图片不管是否真是本地图片则不做考虑
@@ -61,13 +62,14 @@ const getFilesBase64 = async (html, contentLocation) => {
 					}
 					let data = fs.readFileSync(tmpPath, "binary");
 					data = Buffer.from(data, "binary");
+					const contentType = getContentTypeFromBuffer(data);
 					data = data.toString("base64");
 
 					let ext = fileName.split(".");
 					ext = ext[ext.length - 1];
 
 					// TODO 不知道为什么，本地文件需要前面加一个 localhost 的前缀
-					resolve({name: `${contentLocation}${path}`, base64: data, contentType: "image/png", contentTransferEncoding: "base64"});
+					resolve({name: `${contentLocation}${path}`, base64: data, contentType, contentTransferEncoding: "base64"});
 				} catch (err) {
 					reject(err);
 				}
@@ -80,6 +82,11 @@ const getFilesBase64 = async (html, contentLocation) => {
 
 	const output = await Promise.all(arr);
 	return output;
+}
+
+function getContentTypeFromBuffer (buffer) {
+	const res = fileinfo.fromBuffer(buffer);
+	return res.mime;
 }
 
 const write = (fileName, output, outputDir) => {
