@@ -189,3 +189,7 @@ function createBoundary () {
 
 	return output.join("");
 }
+
+export default {
+	execute
+}
