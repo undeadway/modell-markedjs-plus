@@ -1,4 +1,9 @@
-export const checkNumberIsNotEmpty = (input) => {
+const side = typeof (window) !== "undefined"; // 设置端点，side = true 浏览器环境 side = false 非浏览器环境
+const isBbrowser = () => {
+	return side;
+}
+
+const checkNumberIsNotEmpty = (input) => {
 	if (checkObjectIsNotEmpty(input)) {
 		return !isNaN(input);
 	} else {
@@ -6,7 +11,7 @@ export const checkNumberIsNotEmpty = (input) => {
 	}
 }
 
-export const checkObjectIsNotEmpty = (input) => {
+const checkObjectIsNotEmpty = (input) => {
 	// 先去除掉 null、undefined、[]、""
 	if (input === null || input === undefined) {
 		return false;
@@ -22,7 +27,8 @@ export const checkObjectIsNotEmpty = (input) => {
 	}
 }
 
-export default {
+module.exports = exports = {
 	checkNumberIsNotEmpty,
-	checkObjectIsNotEmpty
+	checkObjectIsNotEmpty,
+	isBbrowser
 };

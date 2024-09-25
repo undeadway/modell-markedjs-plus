@@ -262,7 +262,7 @@ function create (marked) {
 	}
 }
 
-export default {
+module.exports = exports = {
     parse: _parse,
     create
 }

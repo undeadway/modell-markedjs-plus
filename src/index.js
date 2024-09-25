@@ -1,5 +1,5 @@
-import main from "./modules/main";
-import saveAsMhtml from "./modules/save-as-mhtml";
+const main = require("./modules/main");
+const saveAsMHTML = require("./modules/save-as-mhtml/index");
 
 module.exports = exports = (Marked) => {
 	return {
@@ -10,7 +10,7 @@ module.exports = exports = (Marked) => {
 			const marked = new Marked();
 			return main.parse(marked, file);
 		},
-		saveAsMhtml: saveAsMhtml.execute
+		saveAsMHTML: saveAsMHTML.execute
 	}
 };
 
