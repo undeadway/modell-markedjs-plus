@@ -1,3 +1,5 @@
+const utils = require("./../../lib/utils");
+
 const getStyles = () => {
 	const styles = document.getElementsByTagName("style");
 	for (const { innerText } of styles) {
@@ -19,7 +21,7 @@ const getStyles = () => {
 	}
 }
 
-const getFilesBase64 = async () => {
+const getFilesBase64 = async (html) => {
 	const regx = /<img id="#p(\d)+" src="(\S{1,})" \/>/;
 
 	const arr = [];
