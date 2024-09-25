@@ -12,6 +12,7 @@ function _parse (marked, input) {
 function create (marked) {
 
 	const customExtensions = [];
+	let opttions = {};
 	const imageMap = {}, tableMap = {}, levelMap = {}, anchorMap = {};
 	let tableIndex = 1, imgIndex = 1, anchorIndex = 1;
 	let levelIndex = [ 0, 0, 0, 0, 0, 0 ], lastLevel = 0;
@@ -25,21 +26,27 @@ function create (marked) {
 	const parser = new marked.Parser();
 
 	rendererMD.heading = function(text, level, raw) {
-		if (lastLevel > level) {
-			for (let i = level; i < levelIndex.length; i++) {
-				levelIndex[i] = 0;
+		if (opttions.heading !== false) {
+			if (lastLevel > level) {
+				for (let i = level; i < levelIndex.length; i++) {
+					levelIndex[i] = 0;
+				}
 			}
+	
+			levelIndex[level - 1]++;
+	
+			const chapter = levelIndex.slice(0, level).join(".");
+	
+			levelMap[text.trim()] = chapter;
+			lastLevel = level;
+	
+			const output = `<p class="doc-heading">${chapter}. ${text}</p>`;
+			return output;
+		} else {
+			const output = `<h${level}>${text}</h${level}>`;
+			return output;
 		}
 
-		levelIndex[level - 1]++;
-
-		const chapter = levelIndex.slice(0, level).join(".");
-
-		levelMap[text.trim()] = chapter;
-		lastLevel = level;
-
-		const output = `<p class="doc-heading">${chapter}. ${text}</p>`;
-		return output;
 	}
 	rendererMD.link = function(href, title, text) {
 		text = text || href;
@@ -50,21 +57,25 @@ function create (marked) {
 	};
 
 	rendererMD.image = function(href, title, text) {
-		if (text) {
-			text = `：${text}`;
+		if (opttions.image !== false) {
+			if (text) {
+				text = `：${text}`;
+			}
+	
+			let [ _href, align ] = href.split("|");
+			href = _href;
+			align = align || imgDefaultAlign;
+	
+			let index = imageMap[href];
+			if (!index) {
+				index = imgIndex++;
+				imageMap[href] = index;
+			}
+			const html = `<div class="doc-img obj-align__${align}"><img id="#p${index}" src="${fileUrl}${href}" /><div>图 ${index}${text}</div></div>`;
+			return html;
+		} else {
+			return `<img src="${title}${href}" />`;
 		}
-
-		let [ _href, align ] = href.split("|");
-		href = _href;
-		align = align || imgDefaultAlign;
-
-		let index = imageMap[href];
-		if (!index) {
-			index = imgIndex++;
-			imageMap[href] = index;
-		}
-		const html = `<div class="doc-img obj-align__${align}"><img id="#p${index}" src="${fileUrl}${href}" /><div>图 ${index}${text}</div></div>`;
-		return html;
 	}
 
 	rendererMD.code = function (code, info, escaped) {
@@ -228,6 +239,9 @@ function create (marked) {
 	});
 
 	return {
+		user: (opt) => {
+			opttions = opt;
+		},
 		parse: (file) => {
 				const extensions = [extractsAt, extractsColor].concat(customExtensions);
 
