@@ -54,6 +54,7 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 	output = output.concat(content);
 
 	for (const style of styles) {
+		if (!style.css) continue;
 		const arr = [
 			`--${boundary}`,
 			`Content-Type: ${style.contentType}`,
@@ -68,9 +69,10 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 	}
 
 	// 图片
-	const files = await Client.getFilesBase64(html);
+	const files = await Client.getFilesBase64(html, contentLocation);
 
 	for (const file of files) {
+		if (!file.base64) continue;
 		const arr = [
 			`--${boundary}`,
 			`Content-Type: ${file.contentType}`,
