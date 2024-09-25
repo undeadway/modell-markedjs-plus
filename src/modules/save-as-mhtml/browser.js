@@ -53,12 +53,10 @@ const getFilesBase64 = async (html) => {
 		});
 
 		arr.push(promise);
-
 		html = html.replace(matched[0], "");
 	}
 
 	const output = await Promise.all(arr);
-
 	return output;
 }
 
