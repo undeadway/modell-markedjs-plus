@@ -239,7 +239,7 @@ function create (marked) {
 	});
 
 	return {
-		user: (opt) => {
+		using: (opt) => {
 			opttions = opt;
 		},
 		parse: (file) => {
