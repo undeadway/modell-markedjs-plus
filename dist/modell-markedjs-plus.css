@@ -5,6 +5,12 @@
 .modell-markedjs-plus-box li {
   padding: 5px 0px;
 }
+.modell-markedjs-plus-box a {
+  color: #409EFF;
+}
+.modell-markedjs-plus-box a:hover {
+  color: #00fdf0;
+}
 .modell-markedjs-plus-box .doc-heading {
   font-weight: bold;
   font-size: 20px;
