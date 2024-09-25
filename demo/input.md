@@ -11,6 +11,9 @@
 
 @[image]{第三张图}  
 
-![第一张图](http://static.waygc.net/res/p0001.png)
-![第二张图](/home/p0001.png)
-![第三张图](../../../home/p0001.png)
+![第一张图](http://static.waygc.net/res/dir-marker.png)
+![第二张图](http://static.waygc.net/res/p0001.jpg)
+![第四张图](../../../../home/dir-marker.png)
+![第三张图](../../../../home/p0001.jpg)
+![第6张图](/home/dir-marker.png)
+![第7张图](/home/p0001.jpg)
