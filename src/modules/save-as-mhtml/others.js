@@ -66,7 +66,8 @@ const getFilesBase64 = async (html, contentLocation) => {
 					let ext = fileName.split(".");
 					ext = ext[ext.length - 1];
 
-					resolve({name: path, base64: data, contentType: "image/png", contentTransferEncoding: "base64"});
+					// TODO 不知道为什么，本地文件需要前面加一个 localhost 的前缀
+					resolve({name: `${contentLocation}${path}`, base64: data, contentType: "image/png", contentTransferEncoding: "base64"});
 				} catch (err) {
 					reject(err);
 				}
