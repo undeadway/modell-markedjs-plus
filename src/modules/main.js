@@ -15,7 +15,7 @@ function create (marked) {
 	const imageMap = {}, tableMap = {}, levelMap = {}, anchorMap = {};
 	let tableIndex = 1, imgIndex = 1, anchorIndex = 1;
 	let levelIndex = [ 0, 0, 0, 0, 0, 0 ], lastLevel = 0;
-	let fileUrl = "", imgDefaultAlign = "left";
+	let fileUrl = "", linkUrl = "", imgDefaultAlign = "left";
 	let _highlight = (code) => {
 		return code;
 	}
@@ -45,7 +45,7 @@ function create (marked) {
 		text = text || href;
 		title = text;
 
-		let html = `<a href="${href}">${text}</a>`;
+		let html = `<a href="${linkUrl}${href}">${text}</a>`;
 		return html;
 	};
 
@@ -254,6 +254,12 @@ function create (marked) {
 			fileUrl = url;
 			if (url[url.length - 1] !== "/") {
 				fileUrl += "/";
+			}
+		},
+		setLinkDefaultUrl (url) {
+			linkUrl = url;
+			if (url[url.length - 1] !== "/") {
+				linkUrl += "/";
 			}
 		},
 		setImageDefaultAlign (align) {
