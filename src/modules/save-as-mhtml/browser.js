@@ -2,6 +2,8 @@ const utils = require("./../../lib/utils");
 
 const getStyles = () => {
 	const styles = document.getElementsByTagName("style");
+	const output = [];
+
 	for (const { innerText } of styles) {
 		try {
 			if (utils.checkObjectIsNotEmpty(innerText) && innerText.indexOf(".modell-") >= 0) {
@@ -19,11 +21,12 @@ const getStyles = () => {
 			console.log(err);
 		}
 	}
+
+	return output;
 }
 
 const getFilesBase64 = async (html) => {
 	const regx = /<img id="#p(\d)+" src="(\S{1,})" \/>/;
-
 	const arr = [];
 
 	while (true) {
