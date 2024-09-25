@@ -7,7 +7,7 @@ const Client = utils.isBbrowser() ? browser : others;
 const LETTERS = "ABCDEFGHIJKLIMOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 const LETTERS_DIGIT = "ABCDEFGHIJKLIMOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890";
 
-const execute = async (html, fileName, contentLocation) => {
+const execute = async (html, fileName, contentLocation, outputDir) => {
 	contentLocation = contentLocation || "http://localhost/"
 
 	// CSS
@@ -87,7 +87,7 @@ const execute = async (html, fileName, contentLocation) => {
 	output.push(`--${boundary}--`);
 	output = output.join("\r\n");
 
-	Client.write(fileName, output);
+	Client.write(fileName, output, outputDir);
 }
 
 function urlEncode (input) {

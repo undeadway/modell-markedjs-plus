@@ -18,11 +18,16 @@ const getStyles = () => {
 }
 
 const getFilesBase64 = async (html) => {
+    /*
+     * 非浏览器环境下，图片地址如果以 http 开头，则认为是网络图片，
+     * 不然一律以本体图片处理，而本地图片不管是否真是本地图片则不做考虑
+     */
     return []; // TODO 暂时返回空
 }
 
-const write = (fileName, output) => {
-    fs.writeFileSync(`${__dirname}/../../../dist/${fileName}.mhtml`, output);
+const write = (fileName, output, outputDir) => {
+    outputDir = outputDir || `${__dirname}/../../../dist`;
+    fs.writeFileSync(`${outputDir}/${fileName}.mhtml`, output);
 }
 
 module.exports = exports = {
