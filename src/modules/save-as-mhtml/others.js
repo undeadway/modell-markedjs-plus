@@ -17,7 +17,7 @@ const getStyles = () => {
     return output;
 }
 
-const getFilesBase64 = async () => {
+const getFilesBase64 = async (html) => {
     return []; // TODO 暂时返回空
 }
 
