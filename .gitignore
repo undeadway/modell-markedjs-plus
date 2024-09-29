@@ -1,4 +1,4 @@
 node_modules/
 test/
 demo/output.html
-demo.output.mthml
+demo/output.mhtml
