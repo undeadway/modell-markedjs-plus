@@ -2,9 +2,13 @@ const dayjs = require("dayjs");
 const utils = require("../../lib/utils");
 const Client = utils.isBbrowser() ? require("./browser") : require("./others");
 
-const LETTERS = "ABCDEFGHIJKLIMOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-const LETTERS_DIGIT = "ABCDEFGHIJKLIMOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890";
-const UPPERS_DIGIT = "ABCDEFGHIJKLIMOPQRSTUVWXYZ01234567890";
+const UPPER_CASE = "ABCDEFGHIJKLIMOPQRSTUVWXYZ";
+const LOWER_CASE = "abcdefghijklmnopqrstuvwxyz";
+const DIGIT = "1234567890";
+
+const LETTERS = `${UPPER_CASE}${LOWER_CASE}`;
+const UPPER_DIGIT = `${UPPER_CASE}${DIGIT}`;
+const LETTER_DIGIT = `${LETTERS}${DIGIT}`;
 
 const execute = async (html, fileName, contentLocation, outputDir) => {
 	contentLocation = contentLocation || "http://localhost/"
@@ -27,7 +31,7 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 	contentId += Math.random().toString(16).slice(2).toUpperCase();
 
 	for (let i = contentId.length; i < 32; i++) {
-		const ch = UPPERS_DIGIT[Math.floor(Math.random() * 36)];
+		const ch = UPPER_DIGIT[Math.floor(Math.random() * 36)];
 		contentId += ch;
 	}
 
@@ -124,7 +128,7 @@ function createBoundary () {
 
 	// 后面是字母+数字，合计 43 位
 	for (let i = 0; i < 42; i++) {
-		const ch = LETTERS_DIGIT[Math.floor(Math.random() * 62)];
+		const ch = LETTER_DIGIT[Math.floor(Math.random() * 62)];
 		output.push(ch);
 	}
 
