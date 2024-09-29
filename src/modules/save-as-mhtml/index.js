@@ -4,6 +4,7 @@ const Client = utils.isBbrowser() ? require("./browser") : require("./others");
 
 const LETTERS = "ABCDEFGHIJKLIMOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 const LETTERS_DIGIT = "ABCDEFGHIJKLIMOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890";
+const UPPERS_DIGIT = "ABCDEFGHIJKLIMOPQRSTUVWXYZ01234567890";
 
 const execute = async (html, fileName, contentLocation, outputDir) => {
 	contentLocation = contentLocation || "http://localhost/"
@@ -21,6 +22,14 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 	}
 
 	inputs.push(`<body>${input}</body></html>`);
+
+	let contentId = Date.now().toString(16).toUpperCase();
+	contentId += Math.random().toString(16).slice(2).toUpperCase();
+
+	for (let i = contentId.length; i < 32; i++) {
+		const ch = UPPERS_DIGIT[Math.floor(Math.random() * 36)];
+		contentId += ch;
+	}
 
 	const subjName = urlEncode(fileName);
 	const date = "Date: " + dayjs(new Date()).format("ddd, DD MMM yyyy hh:mm:ss +0800");
@@ -41,7 +50,7 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 	const content = [
 		`--${boundary}`,
 		"Content-Type: text/html",
-		"Content-ID: <frame-3394E9645D3080A4E4C635EC07ED414E@mhtml.blink>",
+		`Content-ID: <frame-${contentId}@mhtml.blink>`,
 		"Content-Transfer-Encoding: quoted-printable",
 		`Content-Location:${contentLocation}`,
 		"",
