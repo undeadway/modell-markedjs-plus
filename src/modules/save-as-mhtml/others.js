@@ -81,6 +81,7 @@ const getFilesBase64 = async (html, contentLocation) => {
 						// 如果是绝对路径，则不做任何处理，只处理相对路径
 						tmpPath =  process.cwd() + "/" + path;
 					}
+
 					let data = fs.readFileSync(tmpPath, "binary");
 					data = Buffer.from(data, "binary");
 					const contentType = getContentTypeFromBuffer(data);
@@ -92,6 +93,7 @@ const getFilesBase64 = async (html, contentLocation) => {
 					// TODO 不知道为什么，本地文件需要前面加一个 localhost 的前缀
 					resolve({name: `${contentLocation}${path}`, base64: data, contentType, contentTransferEncoding: "base64"});
 				} catch (err) {
+					// 此处包含文件获取失败
 					reject(err);
 				}
 			}
