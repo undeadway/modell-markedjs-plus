@@ -35,6 +35,27 @@ const getFilesBase64 = async (html, contentLocation) => {
 				const server = path.indexOf("https") === 0 ? https : http;
 				
 				server.get(path, (response) => {
+
+					const { statusCode } = response;
+					const contentType = response.headers['content-type'];
+
+					let error;
+					// 任何 2xx 状态码都表示成功响应，但这里只检查 200。
+					if (statusCode !== 200) {
+						error = new Error('Request Failed.\n' +
+										`Status Code: ${statusCode}`);
+					// } else if (!/^application\/json/.test(contentType)) {
+					// 	error = new Error('Invalid content-type.\n' +
+					// 					`Expected application/json but received ${contentType}`);
+					}
+					if (error) {
+						console.error(error.message);
+						// 消费响应数据以释放内存
+						res.resume();
+						reject();
+						return;
+					}
+
 					let data = "";
 					response.setEncoding("binary");
 					response.on('data', function (chunk) {
@@ -47,7 +68,7 @@ const getFilesBase64 = async (html, contentLocation) => {
 
 						resolve({name: path, base64: data, contentType, contentTransferEncoding: "base64"});
 					});
-				});	
+				});
 			} else { // 不然一律以本体图片处理，而本地图片不管是否真是本地图片则不做考虑
  				// / 开头，linux 绝对路径文件
 				// 字母:\ 开头，windows 绝对路径文件
