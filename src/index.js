@@ -10,6 +10,6 @@ module.exports = exports = (Marked) => {
 			const marked = new Marked();
 			return main.parse(marked, file);
 		},
-		saveAsMHTML: saveAsMHTML.execute
+		saveAsMHTML: saveAsMHTML
 	}
 };

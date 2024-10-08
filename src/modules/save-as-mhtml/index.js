@@ -125,6 +125,4 @@ function createBoundary () {
 	return output.join("");
 }
 
-module.exports = exports = {
-	execute
-}
+module.exports = exports = execute;
