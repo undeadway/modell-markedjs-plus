@@ -1,7 +1,7 @@
 const utils = require("../../lib/utils");
 const Client = utils.isBbrowser() ? require("./browser") : require("./others");
 
-const { UPPER_CASE, LOWER_CASE, DIGIT, BLANK } = require("./../../lib/constants");
+const { UPPER_CASE, LOWER_CASE, DIGIT, BLANK, MIME_TEXT_CSS, MIME_TEXT_HTML, QUOTED_PRINTABLE, AT_MHTML_BLINK } = require("./../../lib/constants");
 const LETTERS = `${UPPER_CASE}${LOWER_CASE}`, UPPER_DIGIT = `${UPPER_CASE}${DIGIT}`, LETTER_DIGIT = `${LETTERS}${DIGIT}`;
 
 const execute = async (html, fileName, contentLocation, outputDir) => {
@@ -9,10 +9,10 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 
 	const styles = Client.getStyles(); 	// CSS
 
-	const contents = ["<!DOCTYPE html><html lang=3D\"zh-CN\" class=3D\" \"><head><meta http-equiv=3D\"Content-Type\" content=3D\"text/html; charset=3DUTF-8\">"];
+	const contents = [`<!DOCTYPE html><html lang=3D\"zh-CN\" class=3D\" \"><head><meta http-equiv=3D\"Content-Type\" content=3D\"${MIME_TEXT_HTML}; charset=3DUTF-8\">`];
 
 	for (const style of styles) {
-		contents.push(`<link rel=3D"stylesheet" type=3D"text/css" href=3D"${style.contentLocation}" />`);
+		contents.push(`<link rel=3D"stylesheet" type=3D"${MIME_TEXT_CSS}" href=3D"${style.contentLocation}" />`);
 	}
 
 	let input = urlEncode(html);
@@ -35,14 +35,14 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 		utils.getFormattedDate(),
 		"MIME-Version: 1.0",
 		"Content-Type: multipart/related;",
-		"	type=\"text/html\";",
+		`	type="${MIME_TEXT_HTML}";`,
 		` boundary=${boundary}`,
 		BLANK, BLANK, // 两个空行
 		// 文本内容部分
 		`--${boundary}`,
-		"Content-Type: text/html",
-		`Content-ID: <frame-${contentId}@mhtml.blink>`,
-		"Content-Transfer-Encoding: quoted-printable",
+		`Content-Type: ${MIME_TEXT_HTML}`,
+		`Content-ID: <frame-${contentId}${AT_MHTML_BLINK}>`,
+		`Content-Transfer-Encoding: ${QUOTED_PRINTABLE}`,
 		`Content-Location:${contentLocation}`,
 		BLANK,
 		contents.join(BLANK),

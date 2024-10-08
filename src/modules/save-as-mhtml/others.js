@@ -2,7 +2,8 @@ const fs = require("fs");
 const http = require("http");
 const https = require("https");
 const fileinfo = require("fileinfo");
-const { BASE64, BINARY, HTTP, HTTPS, WINDOWS_PATH_REGX, HTML_IMAGE_REGX, MIME_TEXT_CSS, MK_DASH, MK_POINT, MK_SLASH, BLANK, QUOTED_PRINTABLE } = require("./../../lib/constants");
+const { BASE64, BINARY, HTTP, HTTPS, WINDOWS_PATH_REGX, HTML_IMAGE_REGX, MIME_TEXT_CSS,
+		MK_DASH, MK_POINT, MK_SLASH, BLANK, QUOTED_PRINTABLE, AT_MHTML_BLINK } = require("./../../lib/constants");
 
 const getStyles = () => {
 	const data = fs.readFileSync(`${__dirname}/../../../dist/modell-markedjs-plus.css`);
@@ -13,7 +14,7 @@ const getStyles = () => {
 	output.push({
 		contentType: MIME_TEXT_CSS,
 		contentTransferEncoding: QUOTED_PRINTABLE,
-		contentLocation: `cid:css-${Date.now()}-${random}@mhtml.blink`,
+		contentLocation: `cid:css-${Date.now()}-${random}${AT_MHTML_BLINK}`,
 		value: data
 	});
 

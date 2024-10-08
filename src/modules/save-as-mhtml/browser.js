@@ -1,8 +1,8 @@
 const utils = require("./../../lib/utils");
-const { STYLE, MIME_TEXT_CSS, QUOTED_PRINTABLE, HTML_IMAGE_REGX, W3_ORG_URL, MK_DASH, MK_POINT, BLANK } = require("./../../lib/constants");
+const { MIME_TEXT_CSS, QUOTED_PRINTABLE, HTML_IMAGE_REGX, MK_DASH, MK_POINT, BLANK, AT_MHTML_BLINK } = require("./../../lib/constants");
 
 const getStyles = () => {
-	const styles = document.getElementsByTagName(STYLE);
+	const styles = document.getElementsByTagName("style");
 	const output = [];
 
 	for (const { innerText } of styles) {
@@ -14,7 +14,7 @@ const getStyles = () => {
 				output.push({
 					contentType: MIME_TEXT_CSS,
 					contentTransferEncoding: QUOTED_PRINTABLE,
-					contentLocation: `cid:css-${Date.now()}-${random}@mhtml.blink`,
+					contentLocation: `cid:css-${Date.now()}-${random}${AT_MHTML_BLINK}`,
 					value: innerText
 				})
 			}
@@ -64,7 +64,7 @@ const getFilesBase64 = async (html) => {
 const write = (fileName, output) => {
 	const urlObject = window.URL || window.webkitURL || window;
 	const myFile = new Blob([output]);
-	var saveLink = document.createElementNS(W3_ORG_URL, "a");
+	var saveLink = document.createElementNS("http://www.w3.org/1999/xhtml", "a");
 	saveLink.href = urlObject.createObjectURL(myFile);
 	saveLink.download = `${fileName}.mhtml`;
 
