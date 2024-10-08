@@ -32,7 +32,7 @@ const getFilesBase64 = async (html, contentLocation) => {
 			let fileName = path.split("/");
 			fileName = fileName[fileName.length - 1];
 			if (path.indexOf("http") === 0) { // 非浏览器环境下，图片地址如果以 http 开头，则认为是网络图片，
-				const server = path.indexOf("https") === 0 ? https : http;
+				const server = path.indexOf("https") === 0 ? https : http; // TODO 请求 https 现在会出错，原因还要调查
 				
 				server.get(path, (response) => {
 
