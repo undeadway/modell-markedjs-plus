@@ -1,7 +1,7 @@
 const utils = require("../../lib/utils");
 const Client = utils.isBbrowser() ? require("./browser") : require("./others");
 
-const { UPPER_CASE, LOWER_CASE, DIGIT } = require("./../../lib/constants");
+const { UPPER_CASE, LOWER_CASE, DIGIT, BLANK } = require("./../../lib/constants");
 const LETTERS = `${UPPER_CASE}${LOWER_CASE}`, UPPER_DIGIT = `${UPPER_CASE}${DIGIT}`, LETTER_DIGIT = `${LETTERS}${DIGIT}`;
 
 const execute = async (html, fileName, contentLocation, outputDir) => {
@@ -37,16 +37,16 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 		"Content-Type: multipart/related;",
 		"	type=\"text/html\";",
 		` boundary=${boundary}`,
-		"", "", // 两个空行
+		BLANK, BLANK, // 两个空行
 		// 文本内容部分
 		`--${boundary}`,
 		"Content-Type: text/html",
 		`Content-ID: <frame-${contentId}@mhtml.blink>`,
 		"Content-Transfer-Encoding: quoted-printable",
 		`Content-Location:${contentLocation}`,
-		"",
-		contents.join(""),
-		""
+		BLANK,
+		contents.join(BLANK),
+		BLANK
 	];
 
 	for (const style of styles) {
@@ -71,9 +71,9 @@ function createExtern (output, boundary, { contentType, contentTransferEncoding,
 	output.push(`Content-Type: ${contentType}`);
 	output.push(`Content-Transfer-Encoding: ${contentTransferEncoding}`);
 	output.push(`Content-Location: ${contentLocation}`);
-	output.push("");
+	output.push(BLANK);
 	output.push(value);
-	output.push("");
+	output.push(BLANK);
 }
 
 function urlEncode (input) {
@@ -92,7 +92,7 @@ function urlEncode (input) {
 		}
 	}
 
-	return output.join("");
+	return output.join(BLANK);
 }
 
 function createBoundary () {
@@ -105,7 +105,7 @@ function createBoundary () {
 		output.push(ch);
 	}
 
-	return output.join("");
+	return output.join(BLANK);
 }
 
 module.exports = exports = execute;
