@@ -12,32 +12,27 @@
 .modell-markedjs-plus-box a:hover {
   color: #93bbef;
 }
-.modell-markedjs-plus-box .doc-heading {
+.modell-markedjs-plus-box .plus-heading {
   font-weight: bold;
   font-size: 20px;
 }
-.modell-markedjs-plus-box .doc-img > div, .modell-markedjs-plus-box .doc-table > div {
+.modell-markedjs-plus-box .plus-img > div, .modell-markedjs-plus-box .plus-table > div {
   text-align: center;
   font-weight: bold;
   margin-top: 3px;
 }
-.modell-markedjs-plus-box .doc-img {
+.modell-markedjs-plus-box .plus-img {
   margin-bottom: 10px;
   text-align: center;
   font-weight: bold;
 }
-.modell-markedjs-plus-box .doc-img img, .modell-markedjs-plus-box .doc-table table {
+.modell-markedjs-plus-box .plus-img img, .modell-markedjs-plus-box .plus-table table {
   max-width: 80%;
 }
-.modell-markedjs-plus-box .span-bold {
+.modell-markedjs-plus-box .plus-span-bold {
   font-weight: bold;
   margin-left: 5px;
   margin-right: 5px;
-}
-.modell-markedjs-plus-box .span-red {
-  color: #FF0000;
-  font-size: 18px;
-  line-height: 24px;
 }
 .modell-markedjs-plus-box table {
   border-collapse: collapse;
