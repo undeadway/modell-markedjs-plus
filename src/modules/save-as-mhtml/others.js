@@ -2,6 +2,7 @@ const fs = require("fs");
 const http = require("http");
 const https = require("https");
 const fileinfo = require("fileinfo");
+const { BASE64, BINARY, WINDOWS_PATH_REGX, IMAGE_REGX } = require("./../../lib/constants");
 
 const getStyles = () => {
 	const data = fs.readFileSync(`${__dirname}/../../../dist/modell-markedjs-plus.css`);
@@ -20,11 +21,10 @@ const getStyles = () => {
 }
 
 const getFilesBase64 = async (html, contentLocation) => {
-	const regx = /<img id="#p(\d)+" src="(\S{1,})" \/>/;
 	const arr = [];
 
 	while (true) {
-		const matched = html.match(regx);
+		const matched = html.match(IMAGE_REGX);
 		if (matched === null) break;
 
 		const promise = new Promise((resolve, reject) => {
@@ -48,16 +48,16 @@ const getFilesBase64 = async (html, contentLocation) => {
 					}
 
 					let data = "";
-					response.setEncoding("binary");
+					response.setEncoding(BINARY);
 					response.on('data', function (chunk) {
 						data += chunk;
 					});
 					response.on("end", function () {
-						data = Buffer.from(data, "binary");
+						data = Buffer.from(data, BINARY);
 						const contentType = getContentTypeFromBuffer(data);
-						data = data.toString("base64");
+						data = data.toString(BASE64);
 
-						resolve({contentLocation: path, value: data, contentType, contentTransferEncoding: "base64"});
+						resolve({contentLocation: path, value: data, contentType, contentTransferEncoding: BASE64});
 					});
 				});
 			} else { // 不然一律以本体图片处理，而本地图片不管是否真是本地图片则不做考虑
@@ -68,21 +68,21 @@ const getFilesBase64 = async (html, contentLocation) => {
 				// 或者说暂时智能处理 相对路径和网络路径
 				try {
 					let tmpPath = path;
-					if (path.indexOf("/") !== 0 && path.match(/^[a-zA-Z]:/) === null) {
+					if (path.indexOf("/") !== 0 && path.match(WINDOWS_PATH_REGX) === null) {
 						// 如果是绝对路径，则不做任何处理，只处理相对路径
 						tmpPath =  process.cwd() + "/" + path;
 					}
 
-					let data = fs.readFileSync(tmpPath, "binary");
-					data = Buffer.from(data, "binary");
+					let data = fs.readFileSync(tmpPath, BINARY);
+					data = Buffer.from(data, BINARY);
 					const contentType = getContentTypeFromBuffer(data);
-					data = data.toString("base64");
+					data = data.toString(BASE64);
 
 					let ext = fileName.split(".");
 					ext = ext[ext.length - 1];
 
 					// TODO 不知道为什么，本地文件需要前面加一个 localhost 的前缀
-					resolve({contentLocation: `${contentLocation}${path}`, value: data, contentType, contentTransferEncoding: "base64"});
+					resolve({contentLocation: `${contentLocation}${path}`, value: data, contentType, contentTransferEncoding: BASE64});
 				} catch (err) { // 此处包含文件获取失败
 					resolve({}); // 如果获取文件失败,则返回一个空对象，至少让程序不中途崩溃
 				}

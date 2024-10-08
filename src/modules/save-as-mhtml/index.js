@@ -1,7 +1,7 @@
 const utils = require("../../lib/utils");
 const Client = utils.isBbrowser() ? require("./browser") : require("./others");
 
-const UPPER_CASE = "ABCDEFGHIJKLIMOPQRSTUVWXYZ", LOWER_CASE = "abcdefghijklmnopqrstuvwxyz", DIGIT = "1234567890";
+const { UPPER_CASE, LOWER_CASE, DIGIT } = require("./../../lib/constants");
 const LETTERS = `${UPPER_CASE}${LOWER_CASE}`, UPPER_DIGIT = `${UPPER_CASE}${DIGIT}`, LETTER_DIGIT = `${LETTERS}${DIGIT}`;
 
 const execute = async (html, fileName, contentLocation, outputDir) => {
