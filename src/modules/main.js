@@ -12,11 +12,13 @@ function _parse (marked, input) {
 function create (marked) {
 
 	const customExtensions = [];
-	let options = {};
 	const imageMap = {}, tableMap = {}, levelMap = {}, anchorMap = {};
+
+	let options = {};
 	let tableIndex = 1, imgIndex = 1, anchorIndex = 1;
 	let levelIndex = [ 0, 0, 0, 0, 0, 0 ], lastLevel = 0;
 	let fileUrl = "", linkUrl = "", imgDefaultAlign = "left";
+
 	let _highlight = (code) => {
 		return code;
 	}
@@ -67,10 +69,12 @@ function create (marked) {
 			align = align || imgDefaultAlign;
 	
 			let index = imageMap[href];
+
 			if (!index) {
 				index = imgIndex++;
 				imageMap[href] = index;
 			}
+
 			const html = `<div class="plus-img obj-align__${align}"><img id="#p${index}" src="${fileUrl}${href}" /><div>图 ${index}${text}</div></div>`;
 			return html;
 		} else {
@@ -94,7 +98,6 @@ function create (marked) {
 		} else {
 			return tableHtml;
 		}
-
 	}
 
 	// TODO 忘了这是个什么功能了，暂时不做处理，或者用其他方式替换
@@ -148,9 +151,11 @@ function create (marked) {
 		},
 		renderer ({ raw, value, text, kind }) {
 			let output = "";
+
 			if (options[kind] === false) {
 				return text;
 			}
+
 			switch (kind) {
 				case "image":
 					let index1 = imageMap[value];
