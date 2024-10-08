@@ -78,7 +78,7 @@ function create (marked) {
 			const html = `<div class="plus-img obj-align__${align}"><img id="#p${index}" src="${fileUrl}${href}" /><div>图 ${index}${text}</div></div>`;
 			return html;
 		} else {
-			return `<img src="${title}${href}" />`;
+			return `<img src="${href}" />`;
 		}
 	}
 
