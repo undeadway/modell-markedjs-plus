@@ -51,8 +51,8 @@ const getFilesBase64 = async (html, contentLocation) => {
 					if (error) {
 						console.error(error.message);
 						// 消费响应数据以释放内存
-						res.resume();
-						reject();
+						response.resume();
+						resolve({}); // TODO 如果获取文件失败,则返回一个空对象，至少让程序不中途崩溃
 						return;
 					}
 
@@ -94,7 +94,8 @@ const getFilesBase64 = async (html, contentLocation) => {
 					resolve({name: `${contentLocation}${path}`, base64: data, contentType, contentTransferEncoding: "base64"});
 				} catch (err) {
 					// 此处包含文件获取失败
-					reject(err);
+					// reject(err);
+					resolve({}); // TODO 如果获取文件失败,则返回一个空对象，至少让程序不中途崩溃
 				}
 			}
 		});
