@@ -2,7 +2,7 @@ const fs = require("fs");
 const http = require("http");
 const https = require("https");
 const fileinfo = require("fileinfo");
-const { BASE64, BINARY, HTTP, HTTPS, WINDOWS_PATH_REGX, IMAGE_REGX, MIME_TEXT_CSS, MK_DASH, MK_POINT, MK_SLASH, BLANK, QUOTED_PRINTABLE } = require("./../../lib/constants");
+const { BASE64, BINARY, HTTP, HTTPS, WINDOWS_PATH_REGX, HTML_IMAGE_REGX, MIME_TEXT_CSS, MK_DASH, MK_POINT, MK_SLASH, BLANK, QUOTED_PRINTABLE } = require("./../../lib/constants");
 
 const getStyles = () => {
 	const data = fs.readFileSync(`${__dirname}/../../../dist/modell-markedjs-plus.css`);
@@ -24,7 +24,7 @@ const getFilesBase64 = async (html, contentLocation) => {
 	const arr = [];
 
 	while (true) {
-		const matched = html.match(IMAGE_REGX);
+		const matched = html.match(HTML_IMAGE_REGX);
 		if (matched === null) break;
 
 		const promise = new Promise((resolve, reject) => {

@@ -8,7 +8,7 @@ const MIME_TEXT_CSS = "text/css";
 const QUOTED_PRINTABLE = "quoted-printable";
 
 const WINDOWS_PATH_REGX = /^[a-zA-Z]:/;
-const IMAGE_REGX = /<img id="#p(\d)+" src="(\S{1,})" \/>/;
+const HTML_IMAGE_REGX = /<img id="#p(\d)+" src="(\S{1,})" \/>/;
 
 const HTTP = "http", HTTPS = "https", STYLE = "style";
 const W3_ORG_URL = "http://www.w3.org/1999/xhtml";
@@ -23,7 +23,7 @@ module.exports = exports = {
     LOWER_CASE,
     DIGIT,
     WINDOWS_PATH_REGX,
-    IMAGE_REGX,
+    HTML_IMAGE_REGX,
     HTTP,
     HTTPS,
     STYLE,

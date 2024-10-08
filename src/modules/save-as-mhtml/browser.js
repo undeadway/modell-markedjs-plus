@@ -1,5 +1,5 @@
 const utils = require("./../../lib/utils");
-const { STYLE, MIME_TEXT_CSS, QUOTED_PRINTABLE, IMAGE_REGX, W3_ORG_URL, MK_DASH, MK_POINT, BLANK } = require("./../../lib/constants");
+const { STYLE, MIME_TEXT_CSS, QUOTED_PRINTABLE, HTML_IMAGE_REGX, W3_ORG_URL, MK_DASH, MK_POINT, BLANK } = require("./../../lib/constants");
 
 const getStyles = () => {
 	const styles = document.getElementsByTagName(STYLE);
@@ -30,7 +30,7 @@ const getFilesBase64 = async (html) => {
 	const arr = [];
 
 	while (true) {
-		const matched = html.match(IMAGE_REGX);
+		const matched = html.match(HTML_IMAGE_REGX);
 		if (matched === null) break;
 
 		const promise = new Promise((resolve, reject) => {
