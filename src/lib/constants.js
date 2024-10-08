@@ -13,7 +13,7 @@ const HTML_IMAGE_REGX = /<img id="#p(\d)+" src="(\S{1,})" \/>/;
 const EXTRACTS_COLOR_REGX = /#\[([0-9a-fA-F]{6})\]\{([\S\s]+?)\}/;
 const EXTRACTS_AT_ITEMS_REGX = /@\[(image|icon|table|anchor)\]\{(\S+?)\}/;
 
-const HTTP = "http", HTTPS = "https", STYLE = "style";
+const HTTP = "http", HTTPS = "https";
 const MK_POINT = ".", MK_DASH = "-", MK_SLASH = "/", MK_COLON = ":";
 const BLANK = "", SPACE = " ";
 const HTML_BR = "<br />";
@@ -31,7 +31,6 @@ module.exports = exports = {
     EXTRACTS_AT_ITEMS_REGX,
     HTTP,
     HTTPS,
-    STYLE,
     MIME_TEXT_CSS,
     MIME_TEXT_HTML,
     QUOTED_PRINTABLE,
