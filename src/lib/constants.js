@@ -10,9 +10,13 @@ const AT_MHTML_BLINK = "@mhtml.blink";
 
 const WINDOWS_PATH_REGX = /^[a-zA-Z]:/;
 const HTML_IMAGE_REGX = /<img id="#p(\d)+" src="(\S{1,})" \/>/;
+const EXTRACTS_COLOR_REGX = /#\[([0-9a-fA-F]{6})\]\{([\S\s]+?)\}/;
+const EXTRACTS_AT_ITEMS_REGX = /@\[(image|icon|table|anchor)\]\{(\S+?)\}/;
 
 const HTTP = "http", HTTPS = "https", STYLE = "style";
-const MK_POINT = ".", MK_DASH = "-", MK_SLASH = "/", BLANK = "";
+const MK_POINT = ".", MK_DASH = "-", MK_SLASH = "/", MK_COLON = ":";
+const BLANK = "", SPACE = " ";
+const HTML_BR = "<br />";
 
 
 module.exports = exports = {
@@ -23,6 +27,8 @@ module.exports = exports = {
     DIGIT,
     WINDOWS_PATH_REGX,
     HTML_IMAGE_REGX,
+    EXTRACTS_COLOR_REGX,
+    EXTRACTS_AT_ITEMS_REGX,
     HTTP,
     HTTPS,
     STYLE,
@@ -33,5 +39,8 @@ module.exports = exports = {
     MK_DASH,
     MK_POINT,
     MK_SLASH,
-    BLANK
+    MK_COLON,
+    BLANK,
+    SPACE,
+    HTML_BR
 };

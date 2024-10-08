@@ -1,3 +1,6 @@
+const { BLANK, MK_SLASH, MK_POINT, SPACE, HTML_BR,
+		EXTRACTS_COLOR_REGX, EXTRACTS_AT_ITEMS_REGX } = require("./../lib/constants");
+
 function _parse (marked, input) {
 	try {
 		let html = marked.parse(input);
@@ -17,7 +20,7 @@ function create (marked) {
 	let options = {};
 	let tableIndex = 1, imgIndex = 1, anchorIndex = 1;
 	let levelIndex = [ 0, 0, 0, 0, 0, 0 ], lastLevel = 0;
-	let fileUrl = "", linkUrl = "", imgDefaultAlign = "left";
+	let fileUrl = BLANK, linkUrl = BLANK, imgDefaultAlign = "left";
 
 	let _highlight = (code) => {
 		return code;
@@ -37,7 +40,7 @@ function create (marked) {
 	
 			levelIndex[level - 1]++;
 	
-			const chapter = levelIndex.slice(0, level).join(".");
+			const chapter = levelIndex.slice(0, level).join(MK_POINT);
 	
 			levelMap[text.trim()] = chapter;
 			lastLevel = level;
@@ -83,8 +86,8 @@ function create (marked) {
 	}
 
 	rendererMD.code = function (code, info, escaped) {
-		info = info.replace("(", "");
-		info = info.replace(")", "");
+		info = info.replace("(", BLANK);
+		info = info.replace(")", BLANK);
 		const value = _highlight(code, info, escaped);
 
 		return `\n<pre class="plus-code"><code class="language-html">${value}</code></pre>\n`;
@@ -122,7 +125,7 @@ function create (marked) {
 		name: "extractsAtItems",
 		level: "inline",
 		start: (src) => {
-			const match = /@\[(image|icon|table|anchor)\]\{(\S+?)\}/.exec(src);
+			const match = EXTRACTS_AT_ITEMS_REGX.exec(src);
 			if (match) {
 				if (options[match[1]] === false) {
 					return -1;
@@ -133,7 +136,7 @@ function create (marked) {
 			}
 		},
 		tokenizer: (src, tokens) => {
-			const match = /@\[(image|icon|table|anchor)\]\{(\S+?)\}/.exec(src);
+			const match = EXTRACTS_AT_ITEMS_REGX.exec(src);
 			if (match) {
 				let [ raw, kind, value ] = match;
 				const text = raw;
@@ -150,7 +153,7 @@ function create (marked) {
 			}
 		},
 		renderer ({ raw, value, text, kind }) {
-			let output = "";
+			let output = BLANK;
 
 			if (options[kind] === false) {
 				return text;
@@ -168,12 +171,12 @@ function create (marked) {
 
 					break;
 				case "icon":
-					value = value.replace(",", " ");
+					value = value.replace(",", SPACE);
 					output = `<i class="plus-span-bold ${value}"></i>`;
 
 					break;
 				case "table":
-					const isTable = value.indexOf(":") < 0;
+					const isTable = value.indexOf(MK_COLON) < 0;
 
 					if (!isTable) {
 						value = value.slice(1);
@@ -193,7 +196,7 @@ function create (marked) {
 
 					break;
 				case "anchor":
-					const isAnchor = value.indexOf(":") < 0;
+					const isAnchor = value.indexOf(MK_COLON) < 0;
 
 					if (isAnchor) {
 						let index = anchorMap[value];
@@ -202,7 +205,7 @@ function create (marked) {
 						}
 						output = `<span id="a_${index}">${value}</span>`;
 					} else {
-						const [ key, tVal ] = value.split(":"); 
+						const [ key, tVal ] = value.split(MK_COLON); 
 						let index = anchorMap[key];
 						if (!index) {
 							index = anchorMap[key] = anchorIndex++;
@@ -214,7 +217,7 @@ function create (marked) {
 			}
 
 			raw = raw.replace(text, output);
-			raw = raw.replace("	", "<br />"); // TODO 这里是否只有这个问题还要再看
+			raw = raw.replace(SPACE, HTML_BR); // TODO 这里是否只有这个问题还要再看
 			return raw;
 		}
 	};
@@ -226,7 +229,7 @@ function create (marked) {
 			if (options.color === false) {
 				return -1;
 			}
-			const match = /#\[([0-9a-fA-F]{6})\]\{([\S\s]+?)\}/.exec(src);
+			const match = EXTRACTS_COLOR_REGX.exec(src);
 			if (match) {
 				return match.index;
 			} else {
@@ -234,7 +237,7 @@ function create (marked) {
 			}
 		},
 		tokenizer: (src, tokens) => {
-			const match = /#\[([0-9a-fA-F]{6})\]\{([\S\s]+?)\}/.exec(src);
+			const match = EXTRACTS_COLOR_REGX.exec(src);
 			if (match) {
 				let [ raw, color, text ] = match;
 				const value = raw;
@@ -258,7 +261,7 @@ function create (marked) {
 			const value = parser.parseInline(tokens);
 			const output = `<span style="color:#${color}">${value}</span>`;
 			raw = raw.replace(proto, output);
-			raw = raw.replace("	", "<br />"); // TODO 这里是否只有这个问题还要再看
+			raw = raw.replace(SPACE, HTML_BR); // TODO 这里是否只有这个问题还要再看
 			return raw;
 		}
 	};
@@ -297,14 +300,14 @@ function create (marked) {
 		},
 		setFileDefaultUrl (url) {
 			fileUrl = url;
-			if (url[url.length - 1] !== "/") {
-				fileUrl += "/";
+			if (url[url.length - 1] !== MK_SLASH) {
+				fileUrl += MK_SLASH;
 			}
 		},
 		setLinkDefaultUrl (url) {
 			linkUrl = url;
-			if (url[url.length - 1] !== "/") {
-				linkUrl += "/";
+			if (url[url.length - 1] !== MK_SLASH) {
+				linkUrl += MK_SLASH;
 			}
 		},
 		setImageDefaultAlign (align) {
