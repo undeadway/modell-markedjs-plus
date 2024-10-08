@@ -15,7 +15,7 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 	inputs.push("<!DOCTYPE html><html lang=3D\"zh-CN\" class=3D\" \"><head><meta http-equiv=3D\"Content-Type\" content=3D\"text/html; charset=3DUTF-8\">");
 
 	for (const style of styles) {
-		inputs.push(`<link rel=3D"stylesheet" type=3D"text/css" href=3D"${style.cid}" />`);
+		inputs.push(`<link rel=3D"stylesheet" type=3D"text/css" href=3D"${style.contentLocation}" />`);
 	}
 
 	inputs.push(`<body>${input}</body></html>`);
@@ -54,15 +54,15 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 	output = output.concat(content);
 
 	for (const style of styles) {
-		if (!style.css) continue;
-		output = createExtern(output, boundary, style.contentType, style.contentTransferEncoding, style.cid, style.css);
+		if (!style.value) continue;
+		output = createExtern(output, boundary, style);
 	}
 
 	const files = await Client.getFilesBase64(html, contentLocation); // 图片
 
 	for (const file of files) {
-		if (!file.base64) continue;
-		output = createExtern(output, boundary, file.contentType, file.contentTransferEncoding, file.name, file.base64);
+		if (!file.value) continue;
+		output = createExtern(output, boundary, file);
 	}
 
 	output.push(`--${boundary}--`);
@@ -71,7 +71,7 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 	Client.write(fileName, output, outputDir);
 }
 
-function createExtern (output, boundary, contentType, contentTransferEncoding, contentLocation, value) {
+function createExtern (output, boundary, { contentType, contentTransferEncoding, contentLocation, value }) {
 	const extern = [
 		`--${boundary}`,
 		`Content-Type: ${contentType}`,

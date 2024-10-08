@@ -13,8 +13,8 @@ const getStyles = () => {
 				output.push({
 					contentType: "text/css",
 					contentTransferEncoding: "quoted-printable",
-					cid: `cid:css-${Date.now()}-${random}@mhtml.blink`,
-					css: innerText
+					contentLocation: `cid:css-${Date.now()}-${random}@mhtml.blink`,
+					value: innerText
 				})
 			}
 		}catch (err) {
@@ -44,7 +44,7 @@ const getFilesBase64 = async (html) => {
 						const { result } = e.target;
 						const first = result.slice(5, 21).split(";");
 						const base64Val = result.slice(22);
-						resolve({name: matched[2], base64: base64Val, contentType: first[0], contentTransferEncoding: first[1]});
+						resolve({contentLocation: matched[2], value: base64Val, contentType: first[0], contentTransferEncoding: first[1]});
 					}
 				} else {
 					resolve({}); // 如果获取文件失败,则返回一个空对象，至少让程序不中途崩溃

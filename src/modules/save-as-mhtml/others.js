@@ -12,8 +12,8 @@ const getStyles = () => {
 	output.push({
 		contentType: "text/css",
 		contentTransferEncoding: "quoted-printable",
-		cid: `cid:css-${Date.now()}-${random}@mhtml.blink`,
-		css: data
+		contentLocation: `cid:css-${Date.now()}-${random}@mhtml.blink`,
+		value: data
 	});
 
 	return output;
@@ -37,7 +37,7 @@ const getFilesBase64 = async (html, contentLocation) => {
 				server.get(path, (response) => {
 
 					const { statusCode } = response;
-					const contentType = response.headers['content-type'];
+					// const contentType = response.headers['content-type'];
 
 					let error;
 					// 任何 2xx 状态码都表示成功响应，但这里只检查 200。
@@ -66,7 +66,7 @@ const getFilesBase64 = async (html, contentLocation) => {
 						const contentType = getContentTypeFromBuffer(data);
 						data = data.toString("base64");
 
-						resolve({name: path, base64: data, contentType, contentTransferEncoding: "base64"});
+						resolve({contentLocation: path, value: data, contentType, contentTransferEncoding: "base64"});
 					});
 				});
 			} else { // 不然一律以本体图片处理，而本地图片不管是否真是本地图片则不做考虑
@@ -91,7 +91,7 @@ const getFilesBase64 = async (html, contentLocation) => {
 					ext = ext[ext.length - 1];
 
 					// TODO 不知道为什么，本地文件需要前面加一个 localhost 的前缀
-					resolve({name: `${contentLocation}${path}`, base64: data, contentType, contentTransferEncoding: "base64"});
+					resolve({contentLocation: `${contentLocation}${path}`, value: data, contentType, contentTransferEncoding: "base64"});
 				} catch (err) {
 					// 此处包含文件获取失败
 					// reject(err);
