@@ -118,8 +118,8 @@ function create (marked) {
 	// 	}
 	// }
 
-	const extractsAt = {
-		name: "extractsAt",
+	const extractsAtItems = {
+		name: "extractsAtItems",
 		level: "inline",
 		start: (src) => {
 			const match = /@\[(image|icon|table|anchor)\]\{(\S+?)\}/.exec(src);
@@ -141,7 +141,7 @@ function create (marked) {
 				raw = src.slice(0, index) + raw;
 
 				const token = {
-					type: "extractsAt",
+					type: "extractsAtItems",
 					raw, value, text, kind,
 					tokens:	lexer.inline(text, tokens)
 				}
@@ -274,7 +274,7 @@ function create (marked) {
 			options = opt ? opt : options;
 		},
 		parse: (file) => {
-				const extensions = [extractsAt, extractsColor].concat(customExtensions);
+				const extensions = [extractsAtItems, extractsColor].concat(customExtensions);
 
 				marked.use({ extensions });
 		
