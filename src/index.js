@@ -13,5 +13,3 @@ module.exports = exports = (Marked) => {
 		saveAsMHTML: saveAsMHTML.execute
 	}
 };
-
-
