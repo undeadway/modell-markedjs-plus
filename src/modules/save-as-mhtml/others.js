@@ -42,11 +42,7 @@ const getFilesBase64 = async (html, contentLocation) => {
 					let error;
 					// 任何 2xx 状态码都表示成功响应，但这里只检查 200。
 					if (statusCode !== 200) {
-						error = new Error('Request Failed.\n' +
-										`Status Code: ${statusCode}`);
-					// } else if (!/^application\/json/.test(contentType)) {
-					// 	error = new Error('Invalid content-type.\n' +
-					// 					`Expected application/json but received ${contentType}`);
+						error = new Error(`Request Failed.\nStatus Code: ${statusCode}`);
 					}
 					if (error) {
 						console.error(error.message);
@@ -94,7 +90,6 @@ const getFilesBase64 = async (html, contentLocation) => {
 					resolve({contentLocation: `${contentLocation}${path}`, value: data, contentType, contentTransferEncoding: "base64"});
 				} catch (err) {
 					// 此处包含文件获取失败
-					// reject(err);
 					resolve({}); // 如果获取文件失败,则返回一个空对象，至少让程序不中途崩溃
 				}
 			}
