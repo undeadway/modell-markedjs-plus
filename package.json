@@ -24,8 +24,7 @@
     "build": "webpack && node ./build/css.js"
   },
   "dependencies": {
-    "fileinfo": "^1.0.4",
-    "dayjs": "^1.11.13"
+    "fileinfo": "^1.0.4"
   },
   "devDependencies": {
     "highlight.js": "^11.9.0",

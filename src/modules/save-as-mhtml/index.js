@@ -1,20 +1,13 @@
-const dayjs = require("dayjs");
 const utils = require("../../lib/utils");
 const Client = utils.isBbrowser() ? require("./browser") : require("./others");
 
-const UPPER_CASE = "ABCDEFGHIJKLIMOPQRSTUVWXYZ";
-const LOWER_CASE = "abcdefghijklmnopqrstuvwxyz";
-const DIGIT = "1234567890";
-
-const LETTERS = `${UPPER_CASE}${LOWER_CASE}`;
-const UPPER_DIGIT = `${UPPER_CASE}${DIGIT}`;
-const LETTER_DIGIT = `${LETTERS}${DIGIT}`;
+const UPPER_CASE = "ABCDEFGHIJKLIMOPQRSTUVWXYZ", LOWER_CASE = "abcdefghijklmnopqrstuvwxyz", DIGIT = "1234567890";
+const LETTERS = `${UPPER_CASE}${LOWER_CASE}`, UPPER_DIGIT = `${UPPER_CASE}${DIGIT}`, LETTER_DIGIT = `${LETTERS}${DIGIT}`;
 
 const execute = async (html, fileName, contentLocation, outputDir) => {
 	contentLocation = contentLocation || "http://localhost/"
 
-	// CSS
-	const styles = Client.getStyles();
+	const styles = Client.getStyles(); 	// CSS
 
 	let input = urlEncode(html);
 	input = input.replaceAll("=\"", "=3D\"");
@@ -36,7 +29,7 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 	}
 
 	const subjName = urlEncode(fileName);
-	const date = "Date: " + dayjs(new Date()).format("ddd, DD MMM yyyy hh:mm:ss +0800");
+	const date = utils.getFormattedDate(); //  + dayjs(new Date()).format("ddd, DD MMM yyyy hh:mm:ss +0800");
 	const boundary = `----MultipartBoundary--${createBoundary()}----`;
 
 	let output = [
@@ -79,8 +72,7 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 		output = output.concat(arr);
 	}
 
-	// 图片
-	const files = await Client.getFilesBase64(html, contentLocation);
+	const files = await Client.getFilesBase64(html, contentLocation); // 图片
 
 	for (const file of files) {
 		if (!file.base64) continue;

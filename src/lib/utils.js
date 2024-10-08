@@ -27,8 +27,38 @@ const checkObjectIsNotEmpty = (input) => {
 	}
 }
 
+const WEEK_DAYS = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ];
+const MONTH_LIST = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+
+const getFormattedDate = () => {
+	const dt = new Date();
+	const day = dt.getDay();
+	const month = dt.getMonth();
+	const year = dt.getFullYear();
+	let date = dt.getDate();
+	if (date < 10) {
+		date = `0${date}`;
+	}
+	const hours = dt.getHours();
+	if (hours < 10) {
+		hours = `0${hours}`;
+	}
+	const miinutes = dt.getMinutes();
+	if (miinutes < 10) {
+		miinutes = `0${miinutes}`;
+	}
+	const seconds = dt.getSeconds();
+	if (seconds < 10) {
+		seconds = `0${seconds}`;
+	}
+
+	const output = `Date: ${WEEK_DAYS[day]}, ${date} ${MONTH_LIST[month]} ${year} ${hours}:${miinutes}:${seconds} +0800`;
+	return output;
+}
+
 module.exports = exports = {
 	checkNumberIsNotEmpty,
 	checkObjectIsNotEmpty,
-	isBbrowser
+	isBbrowser,
+	getFormattedDate
 };
