@@ -20,8 +20,7 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 
 	inputs.push(`<body>${input}</body></html>`);
 
-	let contentId = Date.now().toString(16).toUpperCase();
-	contentId += Math.random().toString(16).slice(2).toUpperCase();
+	let contentId = Date.now().toString(16).toUpperCase() + Math.random().toString(16).slice(2).toUpperCase();
 
 	for (let i = contentId.length; i < 32; i++) {
 		const ch = UPPER_DIGIT[Math.floor(Math.random() * 36)];
@@ -29,14 +28,13 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 	}
 
 	const subjName = urlEncode(fileName);
-	const date = utils.getFormattedDate(); //  + dayjs(new Date()).format("ddd, DD MMM yyyy hh:mm:ss +0800");
 	const boundary = `----MultipartBoundary--${createBoundary()}----`;
 
 	let output = [
 		"From: <Saved by Blink>",
 		`Snapshot-Content-Location:${contentLocation}`,
 		`Subject: =?utf-8?Q?${subjName}?=`,
-		date,
+		utils.getFormattedDate(),
 		"MIME-Version: 1.0",
 		"Content-Type: multipart/related;",
 		"	type=\"text/html\";",
