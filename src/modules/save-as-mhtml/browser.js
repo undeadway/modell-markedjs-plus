@@ -1,18 +1,19 @@
 const utils = require("./../../lib/utils");
+const { STYLE, MIME_TEXT_CSS, QUOTED_PRINTABLE, IMAGE_REGX, W3_ORG_URL, MK_DASH, MK_POINT, BLANK } = require("./../../lib/constants");
 
 const getStyles = () => {
-	const styles = document.getElementsByTagName("style");
+	const styles = document.getElementsByTagName(STYLE);
 	const output = [];
 
 	for (const { innerText } of styles) {
 		try {
 			if (utils.checkObjectIsNotEmpty(innerText) && innerText.indexOf(".modell-") >= 0) {
 				let random = (Math.random()).toString();
-				random = random.replace(".", "-");
+				random = random.replace(MK_POINT, MK_DASH);
 
 				output.push({
-					contentType: "text/css",
-					contentTransferEncoding: "quoted-printable",
+					contentType: MIME_TEXT_CSS,
+					contentTransferEncoding: QUOTED_PRINTABLE,
 					contentLocation: `cid:css-${Date.now()}-${random}@mhtml.blink`,
 					value: innerText
 				})
@@ -26,11 +27,10 @@ const getStyles = () => {
 }
 
 const getFilesBase64 = async (html) => {
-	const regx = /<img id="#p(\d)+" src="(\S{1,})" \/>/;
 	const arr = [];
 
 	while (true) {
-		const matched = html.match(regx);
+		const matched = html.match(IMAGE_REGX);
 		if (matched === null) break;
 
 		const promise = new Promise((resolve, reject) => {
@@ -54,7 +54,7 @@ const getFilesBase64 = async (html) => {
 		});
 
 		arr.push(promise);
-		html = html.replace(matched[0], "");
+		html = html.replace(matched[0], BLANK);
 	}
 
 	const output = await Promise.all(arr);
@@ -64,15 +64,12 @@ const getFilesBase64 = async (html) => {
 const write = (fileName, output) => {
 	const urlObject = window.URL || window.webkitURL || window;
 	const myFile = new Blob([output]);
-	var saveLink = document.createElementNS("http://www.w3.org/1999/xhtml", "a");
+	var saveLink = document.createElementNS(W3_ORG_URL, "a");
 	saveLink.href = urlObject.createObjectURL(myFile);
 	saveLink.download = `${fileName}.mhtml`;
 
 	const ev = document.createEvent("MouseEvents");
-	ev.initMouseEvent(
-		"click", true, false, window, 0, 0, 0, 0, 0
-		, false, false, false, false, 0, null
-	);
+	ev.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 	saveLink.dispatchEvent(ev);
 }
 

@@ -2,17 +2,17 @@ const fs = require("fs");
 const http = require("http");
 const https = require("https");
 const fileinfo = require("fileinfo");
-const { BASE64, BINARY, WINDOWS_PATH_REGX, IMAGE_REGX } = require("./../../lib/constants");
+const { BASE64, BINARY, HTTP, HTTPS, WINDOWS_PATH_REGX, IMAGE_REGX, MIME_TEXT_CSS, MK_DASH, MK_POINT, MK_SLASH, BLANK, QUOTED_PRINTABLE } = require("./../../lib/constants");
 
 const getStyles = () => {
 	const data = fs.readFileSync(`${__dirname}/../../../dist/modell-markedjs-plus.css`);
 	const output = [];
 
 	let random = (Math.random()).toString();
-	random = random.replace(".", "-");
+	random = random.replace(MK_POINT, MK_DASH);
 	output.push({
-		contentType: "text/css",
-		contentTransferEncoding: "quoted-printable",
+		contentType: MIME_TEXT_CSS,
+		contentTransferEncoding: QUOTED_PRINTABLE,
 		contentLocation: `cid:css-${Date.now()}-${random}@mhtml.blink`,
 		value: data
 	});
@@ -29,10 +29,10 @@ const getFilesBase64 = async (html, contentLocation) => {
 
 		const promise = new Promise((resolve, reject) => {
 			let path = matched[2];
-			let fileName = path.split("/");
+			let fileName = path.split(MK_SLASH);
 			fileName = fileName[fileName.length - 1];
-			if (path.indexOf("http") === 0) { // 非浏览器环境下，图片地址如果以 http 开头，则认为是网络图片，
-				const server = path.indexOf("https") === 0 ? https : http; // TODO 请求 https 现在会出错，原因还要调查
+			if (path.indexOf(HTTP) === 0) { // 非浏览器环境下，图片地址如果以 http 开头，则认为是网络图片，
+				const server = path.indexOf(HTTPS) === 0 ? https : http; // TODO 请求 https 现在会出错，原因还要调查
 				
 				server.get(path, (response) => {
 
@@ -47,7 +47,7 @@ const getFilesBase64 = async (html, contentLocation) => {
 						return;
 					}
 
-					let data = "";
+					let data = BLANK;
 					response.setEncoding(BINARY);
 					response.on('data', function (chunk) {
 						data += chunk;
@@ -68,9 +68,9 @@ const getFilesBase64 = async (html, contentLocation) => {
 				// 或者说暂时智能处理 相对路径和网络路径
 				try {
 					let tmpPath = path;
-					if (path.indexOf("/") !== 0 && path.match(WINDOWS_PATH_REGX) === null) {
+					if (path.indexOf(MK_SLASH) !== 0 && path.match(WINDOWS_PATH_REGX) === null) {
 						// 如果是绝对路径，则不做任何处理，只处理相对路径
-						tmpPath =  process.cwd() + "/" + path;
+						tmpPath =  process.cwd() + MK_SLASH + path;
 					}
 
 					let data = fs.readFileSync(tmpPath, BINARY);
@@ -78,7 +78,7 @@ const getFilesBase64 = async (html, contentLocation) => {
 					const contentType = getContentTypeFromBuffer(data);
 					data = data.toString(BASE64);
 
-					let ext = fileName.split(".");
+					let ext = fileName.split(MK_POINT);
 					ext = ext[ext.length - 1];
 
 					// TODO 不知道为什么，本地文件需要前面加一个 localhost 的前缀
@@ -90,7 +90,7 @@ const getFilesBase64 = async (html, contentLocation) => {
 		});
 
 		arr.push(promise);
-		html = html.replace(matched[0], "");
+		html = html.replace(matched[0], BLANK);
 	}
 
 	const output = await Promise.all(arr);
