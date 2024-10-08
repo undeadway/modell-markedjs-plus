@@ -1,5 +1,6 @@
 const { BLANK, MK_SLASH, MK_POINT, SPACE, HTML_BR,
 		EXTRACTS_COLOR_REGX, EXTRACTS_AT_ITEMS_REGX } = require("./../lib/constants");
+const LEFT = "left", RIGHT = "right", CENTER = "center"
 
 function _parse (marked, input) {
 	try {
@@ -20,7 +21,7 @@ function create (marked) {
 	let options = {};
 	let tableIndex = 1, imgIndex = 1, anchorIndex = 1;
 	let levelIndex = [ 0, 0, 0, 0, 0, 0 ], lastLevel = 0;
-	let fileUrl = BLANK, linkUrl = BLANK, imgDefaultAlign = "left";
+	let fileUrl = BLANK, linkUrl = BLANK, imgDefaultAlign = LEFT;
 
 	let _highlight = (code) => {
 		return code;
@@ -311,7 +312,10 @@ function create (marked) {
 			}
 		},
 		setImageDefaultAlign (align) {
-			imgDefaultAlign = align;
+			imgDefaultAlign = align ? align : imgDefaultAlign;
+		},
+		ImageAlign: {
+			LEFT, RIGHT, CENTER
 		}
 	}
 }
