@@ -27,13 +27,12 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 		contentId += ch;
 	}
 
-	const subjName = urlEncode(fileName);
 	const boundary = `----MultipartBoundary--${createBoundary()}----`;
 
 	const output = [
 		"From: <Saved by Blink>",
 		`Snapshot-Content-Location:${contentLocation}`,
-		`Subject: =?utf-8?Q?${subjName}?=`,
+		`Subject: =?utf-8?Q?${urlEncode(fileName)}?=`,
 		utils.getFormattedDate(),
 		"MIME-Version: 1.0",
 		"Content-Type: multipart/related;",
