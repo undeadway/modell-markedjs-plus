@@ -9,15 +9,14 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 
 	const styles = Client.getStyles(); 	// CSS
 
-	let input = urlEncode(html);
-	input = input.replaceAll("=\"", "=3D\"");
-	const contents = [];
-	contents.push("<!DOCTYPE html><html lang=3D\"zh-CN\" class=3D\" \"><head><meta http-equiv=3D\"Content-Type\" content=3D\"text/html; charset=3DUTF-8\">");
+	const contents = ["<!DOCTYPE html><html lang=3D\"zh-CN\" class=3D\" \"><head><meta http-equiv=3D\"Content-Type\" content=3D\"text/html; charset=3DUTF-8\">"];
 
 	for (const style of styles) {
 		contents.push(`<link rel=3D"stylesheet" type=3D"text/css" href=3D"${style.contentLocation}" />`);
 	}
 
+	let input = urlEncode(html);
+	input = input.replaceAll("=\"", "=3D\"");
 	contents.push(`<body>${input}</body></html>`);
 
 	let contentId = Date.now().toString(16).toUpperCase() + Math.random().toString(16).slice(2).toUpperCase();
