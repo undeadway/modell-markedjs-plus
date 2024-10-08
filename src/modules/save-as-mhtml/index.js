@@ -55,36 +55,33 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 
 	for (const style of styles) {
 		if (!style.css) continue;
-		const arr = [
-			`--${boundary}`,
-			`Content-Type: ${style.contentType}`,
-			`Content-Transfer-Encoding: ${style.contentTransferEncoding}`,
-			`Content-Location: ${style.cid}`,
-			"", style.css, "",
-		];
-
-		output = output.concat(arr);
+		output = createExtern(output, boundary, style.contentType, style.contentTransferEncoding, style.cid, style.css);
 	}
 
 	const files = await Client.getFilesBase64(html, contentLocation); // 图片
 
 	for (const file of files) {
 		if (!file.base64) continue;
-		const arr = [
-			`--${boundary}`,
-			`Content-Type: ${file.contentType}`,
-			`Content-Transfer-Encoding: ${file.contentTransferEncoding}`,
-			`Content-Location: ${file.name}`,
-			"", file.base64, "",
-		];
-
-		output = output.concat(arr);
+		output = createExtern(output, boundary, file.contentType, file.contentTransferEncoding, file.name, file.base64);
 	}
 
 	output.push(`--${boundary}--`);
 	output = output.join("\r\n");
 
 	Client.write(fileName, output, outputDir);
+}
+
+function createExtern (output, boundary, contentType, contentTransferEncoding, contentLocation, value) {
+	const extern = [
+		`--${boundary}`,
+		`Content-Type: ${contentType}`,
+		`Content-Transfer-Encoding: ${contentTransferEncoding}`,
+		`Content-Location: ${contentLocation}`,
+		"",
+		value,
+		""
+	];
+	return output.concat(extern);
 }
 
 function urlEncode (input) {
