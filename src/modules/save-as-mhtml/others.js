@@ -83,8 +83,7 @@ const getFilesBase64 = async (html, contentLocation) => {
 
 					// TODO 不知道为什么，本地文件需要前面加一个 localhost 的前缀
 					resolve({contentLocation: `${contentLocation}${path}`, value: data, contentType, contentTransferEncoding: "base64"});
-				} catch (err) {
-					// 此处包含文件获取失败
+				} catch (err) { // 此处包含文件获取失败
 					resolve({}); // 如果获取文件失败,则返回一个空对象，至少让程序不中途崩溃
 				}
 			}
