@@ -37,15 +37,10 @@ const getFilesBase64 = async (html, contentLocation) => {
 				server.get(path, (response) => {
 
 					const { statusCode } = response;
-					// const contentType = response.headers['content-type'];
+					// const contentType = response.headers['content-type']; // TODO 这里不知道是否还有用，暂时留着
 
-					let error;
 					// 任何 2xx 状态码都表示成功响应，但这里只检查 200。
 					if (statusCode !== 200) {
-						error = new Error(`Request Failed.\nStatus Code: ${statusCode}`);
-					}
-					if (error) {
-						console.error(error.message);
 						// 消费响应数据以释放内存
 						response.resume();
 						resolve({}); // 如果获取文件失败,则返回一个空对象，至少让程序不中途崩溃
