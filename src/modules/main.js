@@ -42,10 +42,10 @@ function create (marked) {
 			levelMap[text.trim()] = chapter;
 			lastLevel = level;
 	
-			const output = `<p class="plus-heading">${chapter}. ${text}</p>`;
+			const output = `\n<p class="plus-heading">${chapter}. ${text}</p>\n`;
 			return output;
 		} else {
-			const output = `<h${level}>${text}</h${level}>`;
+			const output = `\n<h${level}>${text}</h${level}>\n`;
 			return output;
 		}
 
@@ -75,7 +75,7 @@ function create (marked) {
 				imageMap[href] = index;
 			}
 
-			const html = `<div class="plus-img obj-align__${align}"><img id="#p${index}" src="${fileUrl}${href}" /><div>图 ${index}${text}</div></div>`;
+			const html = `\n<div class="plus-img obj-align__${align}"><img id="#p${index}" src="${fileUrl}${href}" /><div>图 ${index}${text}</div></div>\n`;
 			return html;
 		} else {
 			return `<img src="${href}" />`;
@@ -87,16 +87,16 @@ function create (marked) {
 		info = info.replace(")", "");
 		const value = _highlight(code, info, escaped);
 
-		return `<pre class="plus-code"><code class="language-html">${value}</code></pre>`;
+		return `\n<pre class="plus-code"><code class="language-html">${value}</code></pre>\n`;
 	};
 
 	rendererMD.table = function(thead, tbody) {
 		const tableHtml = `<table>${thead}${tbody}</table>`;
 		if (options.table !== false) {
-			const html = `<div class="plus-table">${tableHtml}</div>`;
+			const html = `\n<div class="plus-table">${tableHtml}</div>\n`;
 			return html;
 		} else {
-			return tableHtml;
+			return `\n${tableHtml}\n`;
 		}
 	}
 
@@ -186,7 +186,7 @@ function create (marked) {
 					}
 
 					if (isTable) {
-						return `<div class="obj-align__center plus-span-bold">表 ${index2}：${value}</div>`; // 在 输入为 @X 的时候，表示这里有个表格，不做任何处理
+						return `\n<div class="obj-align__center plus-span-bold">表 ${index2}：${value}</div>\n`; // 在 输入为 @ 的时候，表示这里有个表格，不做任何处理
 					} else {
 						output = `<span class="plus-span-bold">表 ${index2}</span>`;
 					}
