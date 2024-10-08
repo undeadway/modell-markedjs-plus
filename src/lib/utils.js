@@ -39,15 +39,15 @@ const getFormattedDate = () => {
 	if (date < 10) {
 		date = `0${date}`;
 	}
-	const hours = dt.getHours();
+	let hours = dt.getHours();
 	if (hours < 10) {
 		hours = `0${hours}`;
 	}
-	const miinutes = dt.getMinutes();
+	let miinutes = dt.getMinutes();
 	if (miinutes < 10) {
 		miinutes = `0${miinutes}`;
 	}
-	const seconds = dt.getSeconds();
+	let seconds = dt.getSeconds();
 	if (seconds < 10) {
 		seconds = `0${seconds}`;
 	}
