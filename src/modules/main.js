@@ -12,7 +12,7 @@ function _parse (marked, input) {
 function create (marked) {
 
 	const customExtensions = [];
-	let opttions = {};
+	let options = {};
 	const imageMap = {}, tableMap = {}, levelMap = {}, anchorMap = {};
 	let tableIndex = 1, imgIndex = 1, anchorIndex = 1;
 	let levelIndex = [ 0, 0, 0, 0, 0, 0 ], lastLevel = 0;
@@ -26,7 +26,7 @@ function create (marked) {
 	const parser = new marked.Parser();
 
 	rendererMD.heading = function(text, level, raw) {
-		if (opttions.heading !== false) {
+		if (options.heading !== false) {
 			if (lastLevel > level) {
 				for (let i = level; i < levelIndex.length; i++) {
 					levelIndex[i] = 0;
@@ -40,7 +40,7 @@ function create (marked) {
 			levelMap[text.trim()] = chapter;
 			lastLevel = level;
 	
-			const output = `<p class="doc-heading">${chapter}. ${text}</p>`;
+			const output = `<p class="plus-heading">${chapter}. ${text}</p>`;
 			return output;
 		} else {
 			const output = `<h${level}>${text}</h${level}>`;
@@ -57,7 +57,7 @@ function create (marked) {
 	};
 
 	rendererMD.image = function(href, title, text) {
-		if (opttions.image !== false) {
+		if (options.image !== false) {
 			if (text) {
 				text = `：${text}`;
 			}
@@ -71,7 +71,7 @@ function create (marked) {
 				index = imgIndex++;
 				imageMap[href] = index;
 			}
-			const html = `<div class="doc-img obj-align__${align}"><img id="#p${index}" src="${fileUrl}${href}" /><div>图 ${index}${text}</div></div>`;
+			const html = `<div class="plus-img obj-align__${align}"><img id="#p${index}" src="${fileUrl}${href}" /><div>图 ${index}${text}</div></div>`;
 			return html;
 		} else {
 			return `<img src="${title}${href}" />`;
@@ -83,25 +83,37 @@ function create (marked) {
 		info = info.replace(")", "");
 		const value = _highlight(code, info, escaped);
 
-		return `<pre class="doc-code"><code class="language-html">${value}</code></pre>`;
+		return `<pre class="plus-code"><code class="language-html">${value}</code></pre>`;
 	};
 
 	rendererMD.table = function(thead, tbody) {
-		const html = `<div class="doc-table"><table>${thead}${tbody}</table></div>`;
-		return html;
-	}
-	rendererMD.strong = function(value) {
-		const arr = value.split("$");
-		let html = `<span class="span-bold`;
-		for (let i = 1; i < arr.length; i++) {
-			const part = arr[i];
-			html += ` span-${part}`;
+		const tableHtml = `<table>${thead}${tbody}</table>`;
+		if (options.table !== false) {
+			const html = `<div class="plus-table">${tableHtml}</div>`;
+			return html;
+		} else {
+			return tableHtml;
 		}
 
-		html = `${html}">${arr[0]}</span>`;
-
-		return html;
 	}
+
+	// TODO 忘了这是个什么功能了，暂时不做处理，或者用其他方式替换
+	// rendererMD.strong = function(value) {
+	// 	if (options.strong !== false) {
+	// 		const arr = value.split("$");
+	// 		let html = `<span class="plus-span-bold`;
+	// 		for (let i = 1; i < arr.length; i++) {
+	// 			const part = arr[i];
+	// 			html += ` span-${part}`;
+	// 		}
+	
+	// 		html = `${html}">${arr[0]}</span>`;
+	
+	// 		return html;
+	// 	} else {
+	// 		return `<em>${value}</em>`;
+	// 	}
+	// }
 
 	const extractsAt = {
 		name: "extractsAt",
@@ -109,6 +121,9 @@ function create (marked) {
 		start: (src) => {
 			const match = /@\[(image|icon|table|anchor)\]\{(\S+?)\}/.exec(src);
 			if (match) {
+				if (options[match[1]] === false) {
+					return -1;
+				}
 				return match.index;
 			} else {
 				return -1;
@@ -132,7 +147,10 @@ function create (marked) {
 			}
 		},
 		renderer ({ raw, value, text, kind }) {
-			let output = null;
+			let output = "";
+			if (options[kind] === false) {
+				return text;
+			}
 			switch (kind) {
 				case "image":
 					let index1 = imageMap[value];
@@ -140,12 +158,14 @@ function create (marked) {
 						index1 = imgIndex++;
 						imageMap[value] = index1;
 					}
+	
+					output = `<span class="plus-span-bold">图 ${index1}</span>`;
 
-					output = `<span class="span-bold">图 ${index1}</span>`;
 					break;
 				case "icon":
 					value = value.replace(",", " ");
-					output = `<i class="span-bold ${value}"></i>`;
+					output = `<i class="plus-span-bold ${value}"></i>`;
+
 					break;
 				case "table":
 					const isTable = value.indexOf(":") < 0;
@@ -161,9 +181,9 @@ function create (marked) {
 					}
 
 					if (isTable) {
-						return `<div class="obj-align__center span-bold">表 ${index2}：${value}</div>`; // 在 输入为 @X 的时候，表示这里有个表格，不做任何处理
+						return `<div class="obj-align__center plus-span-bold">表 ${index2}：${value}</div>`; // 在 输入为 @X 的时候，表示这里有个表格，不做任何处理
 					} else {
-						output = `<span class="span-bold">表 ${index2}</span>`;
+						output = `<span class="plus-span-bold">表 ${index2}</span>`;
 					}
 
 					break;
@@ -198,6 +218,9 @@ function create (marked) {
 		name: "extractsColor",
 		level: "inline",
 		start: (src) => {
+			if (options.color === false) {
+				return -1;
+			}
 			const match = /#\[([0-9a-fA-F]{6})\]\{([\S\s]+?)\}/.exec(src);
 			if (match) {
 				return match.index;
@@ -224,6 +247,9 @@ function create (marked) {
 			}
 		},
 		renderer ({raw, proto, tokens, color}) {
+			if (options.color === false) {
+				return proto;
+			}
 			const value = parser.parseInline(tokens);
 			const output = `<span style="color:#${color}">${value}</span>`;
 			raw = raw.replace(proto, output);
@@ -240,7 +266,7 @@ function create (marked) {
 
 	return {
 		using: (opt) => {
-			opttions = opt;
+			options = opt ? opt : options;
 		},
 		parse: (file) => {
 				const extensions = [extractsAt, extractsColor].concat(customExtensions);
