@@ -11,14 +11,14 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 
 	let input = urlEncode(html);
 	input = input.replaceAll("=\"", "=3D\"");
-	const inputs = [];
-	inputs.push("<!DOCTYPE html><html lang=3D\"zh-CN\" class=3D\" \"><head><meta http-equiv=3D\"Content-Type\" content=3D\"text/html; charset=3DUTF-8\">");
+	const contents = [];
+	contents.push("<!DOCTYPE html><html lang=3D\"zh-CN\" class=3D\" \"><head><meta http-equiv=3D\"Content-Type\" content=3D\"text/html; charset=3DUTF-8\">");
 
 	for (const style of styles) {
-		inputs.push(`<link rel=3D"stylesheet" type=3D"text/css" href=3D"${style.contentLocation}" />`);
+		contents.push(`<link rel=3D"stylesheet" type=3D"text/css" href=3D"${style.contentLocation}" />`);
 	}
 
-	inputs.push(`<body>${input}</body></html>`);
+	contents.push(`<body>${input}</body></html>`);
 
 	let contentId = Date.now().toString(16).toUpperCase() + Math.random().toString(16).slice(2).toUpperCase();
 
@@ -30,7 +30,7 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 	const subjName = urlEncode(fileName);
 	const boundary = `----MultipartBoundary--${createBoundary()}----`;
 
-	let output = [
+	const output = [
 		"From: <Saved by Blink>",
 		`Snapshot-Content-Location:${contentLocation}`,
 		`Subject: =?utf-8?Q?${subjName}?=`,
@@ -39,49 +39,43 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 		"Content-Type: multipart/related;",
 		"	type=\"text/html\";",
 		` boundary=${boundary}`,
-		"", "" // 两个空行
-	];
-
-	const content = [
+		"", "", // 两个空行
+		// 文本内容部分
 		`--${boundary}`,
 		"Content-Type: text/html",
 		`Content-ID: <frame-${contentId}@mhtml.blink>`,
 		"Content-Transfer-Encoding: quoted-printable",
 		`Content-Location:${contentLocation}`,
-		"", inputs.join(""), "",
+		"",
+		contents.join(""),
+		""
 	];
-
-	output = output.concat(content);
 
 	for (const style of styles) {
 		if (!style.value) continue;
-		output = createExtern(output, boundary, style);
+		createExtern(output, boundary, style);
 	}
 
 	const files = await Client.getFilesBase64(html, contentLocation); // 图片
 
 	for (const file of files) {
 		if (!file.value) continue;
-		output = createExtern(output, boundary, file);
+		createExtern(output, boundary, file);
 	}
 
 	output.push(`--${boundary}--`);
-	output = output.join("\r\n");
 
-	Client.write(fileName, output, outputDir);
+	Client.write(fileName, output.join("\r\n"), outputDir);
 }
 
 function createExtern (output, boundary, { contentType, contentTransferEncoding, contentLocation, value }) {
-	const extern = [
-		`--${boundary}`,
-		`Content-Type: ${contentType}`,
-		`Content-Transfer-Encoding: ${contentTransferEncoding}`,
-		`Content-Location: ${contentLocation}`,
-		"",
-		value,
-		""
-	];
-	return output.concat(extern);
+	output.push(`--${boundary}`);
+	output.push(`Content-Type: ${contentType}`);
+	output.push(`Content-Transfer-Encoding: ${contentTransferEncoding}`);
+	output.push(`Content-Location: ${contentLocation}`);
+	output.push("");
+	output.push(value);
+	output.push("");
 }
 
 function urlEncode (input) {
