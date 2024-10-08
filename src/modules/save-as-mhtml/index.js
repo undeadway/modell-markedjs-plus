@@ -48,9 +48,7 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 		`Content-ID: <frame-${contentId}@mhtml.blink>`,
 		"Content-Transfer-Encoding: quoted-printable",
 		`Content-Location:${contentLocation}`,
-		"",
-		inputs.join(""),
-		"",
+		"", inputs.join(""), "",
 	];
 
 	output = output.concat(content);
@@ -62,9 +60,7 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 			`Content-Type: ${style.contentType}`,
 			`Content-Transfer-Encoding: ${style.contentTransferEncoding}`,
 			`Content-Location: ${style.cid}`,
-			"",
-			style.css,
-			"",
+			"", style.css, "",
 		];
 
 		output = output.concat(arr);
@@ -79,9 +75,7 @@ const execute = async (html, fileName, contentLocation, outputDir) => {
 			`Content-Type: ${file.contentType}`,
 			`Content-Transfer-Encoding: ${file.contentTransferEncoding}`,
 			`Content-Location: ${file.name}`,
-			"",
-			file.base64,
-			"",
+			"", file.base64, "",
 		];
 
 		output = output.concat(arr);
