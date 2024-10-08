@@ -52,7 +52,7 @@ const getFilesBase64 = async (html, contentLocation) => {
 						console.error(error.message);
 						// 消费响应数据以释放内存
 						response.resume();
-						resolve({}); // TODO 如果获取文件失败,则返回一个空对象，至少让程序不中途崩溃
+						resolve({}); // 如果获取文件失败,则返回一个空对象，至少让程序不中途崩溃
 						return;
 					}
 
@@ -95,7 +95,7 @@ const getFilesBase64 = async (html, contentLocation) => {
 				} catch (err) {
 					// 此处包含文件获取失败
 					// reject(err);
-					resolve({}); // TODO 如果获取文件失败,则返回一个空对象，至少让程序不中途崩溃
+					resolve({}); // 如果获取文件失败,则返回一个空对象，至少让程序不中途崩溃
 				}
 			}
 		});
