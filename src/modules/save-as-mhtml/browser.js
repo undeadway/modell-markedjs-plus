@@ -47,7 +47,8 @@ const getFilesBase64 = async (html) => {
 						resolve({name: matched[2], base64: base64Val, contentType: first[0], contentTransferEncoding: first[1]});
 					}
 				} else {
-					reject(`HTTP 错误！状态：${response.status}`);
+					resolve({}); // TODO 如果获取文件失败,则返回一个空对象，至少让程序不中途崩溃
+					// reject(`HTTP 错误！状态：${response.status}`);
 				}
 			});
 		});
