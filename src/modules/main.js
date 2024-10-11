@@ -1,5 +1,9 @@
-const { BLANK, MK_SLASH, MK_POINT, SPACE, HTML_BR,
-		EXTRACTS_COLOR_REGX, EXTRACTS_AT_ITEMS_REGX } = require("./../lib/constants");
+const EXTRACTS_COLOR_REGX = /#\[([0-9a-fA-F]{6})\]\{([\S\s]+?)\}/;
+const EXTRACTS_AT_ITEMS_REGX = /@\[(image|icon|table|anchor)\]\{(\S+?)\}/;
+
+const MK_POINT = ".", MK_SLASH = "/", MK_COLON = ":";
+const BLANK = "", SPACE = " ";
+const HTML_BR = "<br />";
 const LEFT = "left", RIGHT = "right", CENTER = "center"
 
 function _parse (marked, input) {
