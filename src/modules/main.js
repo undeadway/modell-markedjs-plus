@@ -266,7 +266,6 @@ function create (marked) {
 			const value = parser.parseInline(tokens);
 			const output = `<span style="color:#${color}">${value}</span>`;
 			raw = raw.replace(proto, output);
-			raw = raw.replace(SPACE, HTML_BR); // TODO 这里是否只有这个问题还要再看
 			return raw;
 		}
 	};
