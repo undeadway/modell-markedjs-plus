@@ -222,7 +222,6 @@ function create (marked) {
 			}
 
 			raw = raw.replace(text, output);
-			raw = raw.replace(SPACE, HTML_BR); // TODO 这里是否只有这个问题还要再看
 			return raw;
 		}
 	};
